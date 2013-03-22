@@ -1,0 +1,15 @@
+{
+    "name": "phalcon/phalcon",
+    "type": "library",
+    "description": "Phalcon PHP framework",
+    "keywords": ["framework"],
+    "homepage": "http://phalconphp.com",
+    "require": {
+        "php": ">=5.3.3"
+    },
+    "autoload": {
+        "psr-0": {
+            "Phalcon\\": "src/"
+        }
+    }
+}
