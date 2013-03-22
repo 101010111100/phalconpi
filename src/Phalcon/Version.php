@@ -20,7 +20,18 @@ namespace Phalcon {
 		 * D - Special release: 1 = Alpha, 2 = Beta, 3 = RC, 4 = Stable
 		 * E - Special release version i.e. RC1, Beta2 etc.
 		 */
-		protected static function _getVersion(){ }
+		protected static function _getVersion()
+        {
+            $version = array();
+
+            $version[] = 0;
+            $version[] = 9;
+            $version[] = 0;
+            $version[] = 4;
+            $version[] = 0;
+
+            return $version;
+        }
 
 
 		/**
@@ -32,7 +43,39 @@ namespace Phalcon {
 		 *
 		 * @return string
 		 */
-		public static function get(){ }
+		public static function get()
+        {
+            $version = self::_getVersion();
+
+            list ($major, $medium, $minor, $special, $specialNumber) = $version;
+
+            $result = $major . '.' . $medium . '.' . $minor . ' ';
+
+            switch ($special)
+            {
+                case 1:
+                    $suffix = 'ALPHA ' . $specialNumber;
+                    break;
+
+                case 2:
+                    $suffix = 'BETA ' . $specialNumber;
+                    break;
+
+                case 3:
+                    $suffix = 'RC ' . $specialNumber;
+                    break;
+
+                default:
+                    $suffix = '';
+                    break;
+            }
+
+            $result .= $suffix;
+
+            $finalVersion = trim($result);
+
+            return $finalVersion;
+        }
 
 
 		/**
@@ -44,7 +87,19 @@ namespace Phalcon {
 		 *
 		 * @return int
 		 */
-		public static function getId(){ }
+		public static function getId()
+        {
+            $version = self::_getVersion();
+
+            list ($major, $medium, $minor, $special, $specialNumber) = $version;
+
+            $realMedium = sprintf('%02s', $medium);
+            $realMinor = sprintf('%02s', $minor);
+
+            $version = $major . $realMedium . $realMinor . $special . $specialNumber;
+
+            return $version;
+        }
 
 	}
 }
