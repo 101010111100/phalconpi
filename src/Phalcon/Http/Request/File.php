@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace Phalcon\Http\Request {
 
@@ -25,8 +25,8 @@ namespace Phalcon\Http\Request {
 	 *	}
 	 *</code>
 	 */
-
-	class File implements FileInterface {
+	
+	class File implements \Phalcon\Http\Request\FileInterface {
 
 		protected $_name;
 

@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace Phalcon {
 
@@ -8,8 +8,8 @@ namespace Phalcon {
 	 * This is the base class for Phalcon\Mvc\Dispatcher and Phalcon\CLI\Dispatcher.
 	 * This class can't be instantiated directly, you can use it to create your own dispatchers
 	 */
-
-	class Dispatcher implements DispatcherInterface {
+	
+	abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\DI\InjectionAwareInterface, \Phalcon\Events\EventsAwareInterface {
 
 		const EXCEPTION_NO_DI = 0;
 

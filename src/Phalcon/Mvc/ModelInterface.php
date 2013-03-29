@@ -43,7 +43,7 @@ namespace Phalcon\Mvc {
 
 
 		/**
-		 * Sets the DependencyInjection connection service
+		 * Sets both read/write connection services
 		 *
 		 * @param string $connectionService
 		 */
@@ -51,11 +51,35 @@ namespace Phalcon\Mvc {
 
 
 		/**
-		 * Returns DependencyInjection connection service
+		 * Sets the DependencyInjection connection service used to write data
+		 *
+		 * @param string $connectionService
+		 */
+		public function setWriteConnectionService($connectionService);
+
+
+		/**
+		 * Sets the DependencyInjection connection service used to read data
+		 *
+		 * @param string $connectionService
+		 */
+		public function setReadConnectionService($connectionService);
+
+
+		/**
+		 * Returns DependencyInjection connection service used to read data
 		 *
 		 * @return string
 		 */
-		public function getConnectionService();
+		public function getReadConnectionService();
+
+
+		/**
+		 * Returns DependencyInjection connection service used to write data
+		 *
+		 * @return string
+		 */
+		public function getWriteConnectionService();
 
 
 		/**
@@ -63,7 +87,26 @@ namespace Phalcon\Mvc {
 		 *
 		 * @return \Phalcon\Db\AdapterInterface
 		 */
-		public function getConnection();
+		public function getReadConnection();
+
+
+		/**
+		 * Gets internal database connection
+		 *
+		 * @return \Phalcon\Db\AdapterInterface
+		 */
+		public function getWriteConnection();
+
+
+		/**
+		 * Assigns values to a model from an array
+		 *
+		 * @param \Phalcon\Mvc\Model $object
+		 * @param array $data
+		 * @param array $columnMap
+		 * @return \Phalcon\Mvc\Model
+		 */
+		public function assign($data, $columnMap=null);
 
 
 		/**
@@ -75,7 +118,7 @@ namespace Phalcon\Mvc {
 		 * @param int $dirtyState
 		 * @return \Phalcon\Mvc\Model $result
 		 */
-		public function cloneResultMap($base, $data, $columnMap, $dirtyState=null);
+		public static function cloneResultMap($base, $data, $columnMap, $dirtyState=null);
 
 
 		/**
@@ -85,7 +128,7 @@ namespace Phalcon\Mvc {
 		 * @param \Phalcon\Mvc\ModelInterface $base
 		 * @return \Phalcon\Mvc\ModelInterface $result
 		 */
-		public function cloneResult($base, $result);
+		public static function cloneResult($base, $result);
 
 
 		/**
@@ -95,7 +138,7 @@ namespace Phalcon\Mvc {
 		 * @param array $columnMap
 		 * @param int $hydrationMode
 		 */
-		public function cloneResultMapHydrate($data, $columnMap, $hydrationMode);
+		public static function cloneResultMapHydrate($data, $columnMap, $hydrationMode);
 
 
 		/**
@@ -104,7 +147,7 @@ namespace Phalcon\Mvc {
 		 * @param 	array $parameters
 		 * @return  \Phalcon\Mvc\Model\ResultsetInterface
 		 */
-		public function find($parameters=null);
+		public static function find($parameters=null);
 
 
 		/**
@@ -113,7 +156,7 @@ namespace Phalcon\Mvc {
 		 * @param array $parameters
 		 * @return \Phalcon\Mvc\ModelInterface
 		 */
-		public function findFirst($parameters=null);
+		public static function findFirst($parameters=null);
 
 
 		/**
@@ -122,7 +165,7 @@ namespace Phalcon\Mvc {
 		 * @param \Phalcon\DiInterface $dependencyInjector
 		 * @return \Phalcon\Mvc\Model\CriteriaInterface
 		 */
-		public function query($dependencyInjector=null);
+		public static function query($dependencyInjector=null);
 
 
 		/**
@@ -131,7 +174,7 @@ namespace Phalcon\Mvc {
 		 * @param array $parameters
 		 * @return int
 		 */
-		public function count($parameters=null);
+		public static function count($parameters=null);
 
 
 		/**
@@ -140,7 +183,7 @@ namespace Phalcon\Mvc {
 		 * @param array $parameters
 		 * @return double
 		 */
-		public function sum($parameters=null);
+		public static function sum($parameters=null);
 
 
 		/**
@@ -149,7 +192,7 @@ namespace Phalcon\Mvc {
 		 * @param array $parameters
 		 * @return mixed
 		 */
-		public function maximum($parameters=null);
+		public static function maximum($parameters=null);
 
 
 		/**
@@ -158,7 +201,7 @@ namespace Phalcon\Mvc {
 		 * @param array $parameters
 		 * @return mixed
 		 */
-		public function minimum($parameters=null);
+		public static function minimum($parameters=null);
 
 
 		/**
@@ -167,7 +210,7 @@ namespace Phalcon\Mvc {
 		 * @param array $parameters
 		 * @return double
 		 */
-		public function average($parameters=null);
+		public static function average($parameters=null);
 
 
 		/**
@@ -257,6 +300,12 @@ namespace Phalcon\Mvc {
 		 * @return int
 		 */
 		public function getOperationMade();
+
+
+		/**
+		 * Refreshes the model attributes re-querying the record from the database
+		 */
+		public function refresh();
 
 
 		/**

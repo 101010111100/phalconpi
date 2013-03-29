@@ -8,7 +8,7 @@ namespace Phalcon\Logger\Formatter {
 	 * Formats messages using JSON format
 	 */
 	
-	class Json extends \Phalcon\Logger\Formatter {
+	class Json extends \Phalcon\Logger\Formatter implements \Phalcon\Logger\FormatterInterface {
 
 		/**
 		 * Applies a format to a message before sent it to the internal log

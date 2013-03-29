@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace Phalcon\Session {
 
@@ -14,8 +14,8 @@ namespace Phalcon\Session {
 	 *	$user->age = 22;
 	 *</code>
 	 */
-
-	class Bag implements BagInterface {
+	
+	class Bag implements \Phalcon\DI\InjectionAwareInterface, \Phalcon\Session\BagInterface {
 
 		protected $_dependencyInjector;
 
@@ -144,6 +144,32 @@ namespace Phalcon\Session {
 		 * @return boolean
 		 */
 		public function __isset($property){ }
+
+
+		/**
+		 * Removes a property from the internal bag
+		 *
+		 *<code>
+		 * $user->remove('name'));
+		 *</code>
+		 *
+		 * @param string $property
+		 * @return boolean
+		 */
+		public function remove($property){ }
+
+
+		/**
+		 * Magic unset to remove items using the array syntax
+		 *
+		 *<code>
+		 * unset($user['name']);
+		 *</code>
+		 *
+		 * @param string $property
+		 * @return boolean
+		 */
+		public function __unset($property){ }
 
 	}
 }

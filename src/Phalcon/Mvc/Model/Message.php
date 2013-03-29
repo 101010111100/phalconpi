@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace Phalcon\Mvc\Model {
 
@@ -28,8 +28,8 @@ namespace Phalcon\Mvc\Model {
 	 * </code>
 	 *
 	 */
-
-	class Message implements MessageInterface {
+	
+	class Message implements \Phalcon\Mvc\Model\MessageInterface {
 
 		protected $_type;
 
@@ -127,7 +127,7 @@ namespace Phalcon\Mvc\Model {
 
 
 		/**
-		 * Magic __set_state helps to recover messsages from serialization
+		 * Magic __set_state helps to re-build messages variable exporting
 		 *
 		 * @param array $message
 		 * @return \Phalcon\Mvc\Model\Message

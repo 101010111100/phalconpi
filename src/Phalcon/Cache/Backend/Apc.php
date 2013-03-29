@@ -8,21 +8,17 @@ namespace Phalcon\Cache\Backend {
 	 * Allows to cache output fragments, PHP data and raw data using a memcache backend
 	 *
 	 *<code>
-	 *
-	 *	//Cache data for 2 days
-	 *	$frontendOptions = array(
-	 *		'lifetime' => 172800
-	 *	);
-	 *
 	 *	//Cache data for 2 days
 	 *	$frontCache = new Phalcon\Cache\Frontend\Data(array(
 	 *		'lifetime' => 172800
 	 *	));
 	 *
-	 *  $cache = new Phalcon\Cache\Backend\Apc($frontCache);
+	 *  $cache = new Phalcon\Cache\Backend\Apc($frontCache, array(
+	 *      'prefix' => 'app-data'
+	 *  ));
 	 *
 	 *	//Cache arbitrary data
-	 *	$cache->store('my-data', array(1, 2, 3, 4, 5));
+	 *	$cache->save('my-data', array(1, 2, 3, 4, 5));
 	 *
 	 *	//Get data
 	 *	$data = $cache->get('my-data');
@@ -30,7 +26,7 @@ namespace Phalcon\Cache\Backend {
 	 *</code>
 	 */
 	
-	class Apc extends \Phalcon\Cache\Backend {
+	class Apc extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInterface {
 
 		/**
 		 * Returns a cached content

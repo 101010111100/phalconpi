@@ -9,7 +9,7 @@ namespace Phalcon\Mvc\Model {
 	 * This objects implements the ArrayAccess interface to allow access the object as object->x or array[x].
 	 */
 	
-	class Row {
+	class Row implements \ArrayAccess, \Phalcon\Mvc\Model\ResultInterface {
 
 		/**
 		 * Set the current object's state
@@ -32,7 +32,7 @@ namespace Phalcon\Mvc\Model {
 		 * Gets row in a specific position of the row
 		 *
 		 * @param int $index
-		 * @return string|Phalcon\Mvc\ModelInterface
+		 * @return string|\Phalcon\Mvc\ModelInterface
 		 */
 		public function offsetGet($index){ }
 

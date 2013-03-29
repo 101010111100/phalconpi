@@ -14,7 +14,7 @@ namespace Phalcon\Mvc\Model\MetaData {
 	 *</code>
 	 */
 	
-	class Files extends \Phalcon\Mvc\Model\MetaData {
+	class Files extends \Phalcon\Mvc\Model\MetaData implements \Phalcon\DI\InjectionAwareInterface, \Phalcon\Mvc\Model\MetaDataInterface {
 
 		const MODELS_ATTRIBUTES = 0;
 

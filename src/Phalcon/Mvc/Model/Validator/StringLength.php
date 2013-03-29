@@ -19,8 +19,8 @@ namespace Phalcon\Mvc\Model\Validator {
 	 *			'field' => 'name_last',
 	 *			'max' => 50,
 	 *			'min' => 2,
-	 *          'maximumMessage' => 'We don't like really long names',
-	 *          'minimumMessage' => 'We want more than just their initials'
+	 *          'messageMaximum' => 'We don't like really long names',
+	 *          'messageMinimum' => 'We want more than just their initials'
 	 *		)));
 	 *		if ($this->validationHasFailed() == true) {
 	 *			return false;
@@ -32,7 +32,7 @@ namespace Phalcon\Mvc\Model\Validator {
 	 *
 	 */
 	
-	class StringLength extends \Phalcon\Mvc\Model\Validator {
+	class StringLength extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\Model\ValidatorInterface {
 
 		/**
 		 * Executes the validator

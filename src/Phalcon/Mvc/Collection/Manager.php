@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace Phalcon\Mvc\Collection {
 
@@ -20,8 +20,8 @@ namespace Phalcon\Mvc\Collection {
 	 * $robot = new Robots($di);
 	 * </code>
 	 */
-
-	class Manager implements ManagerInterface {
+	
+	class Manager implements \Phalcon\DI\InjectionAwareInterface, \Phalcon\Events\EventsAwareInterface {
 
 		protected $_dependencyInjector;
 

@@ -97,7 +97,7 @@ namespace Phalcon\Mvc {
 		 * @param array $document
 		 * @return \Phalcon\Mvc\Collection
 		 */
-		public function cloneResult($collection, $document);
+		public static function cloneResult($collection, $document);
 
 
 		/**
@@ -208,7 +208,7 @@ namespace Phalcon\Mvc {
 		 * @param string $id
 		 * @return \Phalcon\Mvc\Collection
 		 */
-		public function findById($id);
+		public static function findById($id);
 
 
 		/**
@@ -238,7 +238,7 @@ namespace Phalcon\Mvc {
 		 * @param array $parameters
 		 * @return array
 		 */
-		public function findFirst($parameters=null);
+		public static function findFirst($parameters=null);
 
 
 		/**
@@ -279,7 +279,7 @@ namespace Phalcon\Mvc {
 		 * @param 	array $parameters
 		 * @return  array
 		 */
-		public function find($parameters=null);
+		public static function find($parameters=null);
 
 
 		/**
@@ -288,7 +288,7 @@ namespace Phalcon\Mvc {
 		 * @param array $parameters
 		 * @return array
 		 */
-		public function count($parameters=null);
+		public static function count($parameters=null);
 
 
 		/**

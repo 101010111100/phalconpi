@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace Phalcon\Acl {
 
@@ -7,8 +7,8 @@ namespace Phalcon\Acl {
 	 *
 	 * Adapter for Phalcon\Acl adapters
 	 */
-
-	abstract class Adapter implements AdapterInterface {
+	
+	abstract class Adapter implements \Phalcon\Events\EventsAwareInterface {
 
 		protected $_eventsManager;
 

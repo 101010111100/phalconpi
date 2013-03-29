@@ -9,7 +9,7 @@ namespace Phalcon\DI {
 	 * with the same name of a registered service
 	 */
 	
-	class Injectable {
+	abstract class Injectable implements \Phalcon\DI\InjectionAwareInterface, \Phalcon\Events\EventsAwareInterface {
 
 		protected $_dependencyInjector;
 

@@ -128,7 +128,7 @@ namespace Phalcon {
 		 *
 		 * @param \Phalcon\DiInterface $dependencyInjector
 		 */
-		public function setDefault($dependencyInjector);
+		public static function setDefault($dependencyInjector);
 
 
 		/**
@@ -136,13 +136,13 @@ namespace Phalcon {
 		 *
 		 * @return \Phalcon\DiInterface
 		 */
-		public function getDefault();
+		public static function getDefault();
 
 
 		/**
 		 * Resets the internal default DI
 		 */
-		public function reset();
+		public static function reset();
 
 	}
 }

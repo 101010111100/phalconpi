@@ -10,7 +10,7 @@ namespace Phalcon\DI {
 	 * to register each service individually providing a full stack framework
 	 */
 	
-	class FactoryDefault extends \Phalcon\DI {
+	class FactoryDefault extends \Phalcon\DI implements \Phalcon\DiInterface {
 
 		/**
 		 * \Phalcon\DI\FactoryDefault constructor

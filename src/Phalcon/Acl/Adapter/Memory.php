@@ -60,7 +60,7 @@ namespace Phalcon\Acl\Adapter {
 	 *</code>
 	 */
 	
-	class Memory extends \Phalcon\Acl\Adapter {
+	class Memory extends \Phalcon\Acl\Adapter implements \Phalcon\Events\EventsAwareInterface, \Phalcon\Acl\AdapterInterface {
 
 		protected $_rolesNames;
 
@@ -92,7 +92,7 @@ namespace Phalcon\Acl\Adapter {
 		 * </code>
 		 *
 		 * @param  \Phalcon\Acl\RoleInterface $role
-		 * @param  array $accessInherits
+		 * @param  array|string $accessInherits
 		 * @return boolean
 		 */
 		public function addRole($role, $accessInherits=null){ }

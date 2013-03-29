@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace Phalcon {
 
@@ -16,8 +16,8 @@ namespace Phalcon {
 	 *	echo $escaped; // font\2D family\3A \20 \3C Verdana\3E
 	 *</code>
 	 */
-
-	class Escaper implements EscaperInterface{
+	
+	class Escaper implements \Phalcon\EscaperInterface {
 
 		protected $_encoding;
 
@@ -34,7 +34,7 @@ namespace Phalcon {
 		 *
 		 * @param string $encoding
 		 */
-		public function setEnconding($encoding){ }
+		public function setEncoding($encoding){ }
 
 
 		/**

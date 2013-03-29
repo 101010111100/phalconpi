@@ -111,7 +111,7 @@ namespace Phalcon\Mvc\Router {
 		/**
 		 * Resets the internal route id generator
 		 */
-		public function reset();
+		public static function reset();
 
 	}
 }

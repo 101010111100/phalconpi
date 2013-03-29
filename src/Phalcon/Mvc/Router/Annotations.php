@@ -11,7 +11,7 @@ namespace Phalcon\Mvc\Router {
 	 * $di['router'] = function() {
 	 *
 	 *		//Use the annotations router
-	 *		$router = new \Phalcon\Mvc\Router\Annotations();
+	 *		$router = new \Phalcon\Mvc\Router\Annotations(false);
 	 *
 	 *		//This will do the same as above but only if the handled uri starts with /robots
 	 * 		$router->addResource('Robots', '/robots');
@@ -21,15 +21,19 @@ namespace Phalcon\Mvc\Router {
 	 *</code>
 	 */
 	
-	class Annotations extends \Phalcon\Mvc\Router {
+	class Annotations extends \Phalcon\Mvc\Router implements \Phalcon\DI\InjectionAwareInterface, \Phalcon\Mvc\RouterInterface {
+
+		const URI_SOURCE_GET_URL = 0;
+
+		const URI_SOURCE_SERVER_REQUEST_URI = 1;
 
 		protected $_handlers;
 
 		protected $_processed;
 
-		protected $_controllerSufix;
+		protected $_controllerSuffix;
 
-		protected $_actionSufix;
+		protected $_actionSuffix;
 
 		protected $_routePrefix;
 
@@ -42,6 +46,19 @@ namespace Phalcon\Mvc\Router {
 		 * @return \Phalcon\Mvc\Router\Annotations
 		 */
 		public function addResource($handler, $prefix=null){ }
+
+
+		/**
+		 * Adds a resource to the annotations handler
+		 * A resource is a class that contains routing annotations
+		 * The class is located in a module
+		 *
+		 * @param string $module
+		 * @param string $handler
+		 * @param string $prefix
+		 * @return \Phalcon\Mvc\Router\Annotations
+		 */
+		public function addModuleResource($module, $handler, $prefix=null){ }
 
 
 		/**
@@ -64,11 +81,37 @@ namespace Phalcon\Mvc\Router {
 		/**
 		 * Checks for annotations in the public methods of the controller
 		 *
+		 * @param string $module
+		 * @param string $namespace
 		 * @param string $controller
 		 * @param string $action
 		 * @param \Phalcon\Annotations\Annotation $annotation
 		 */
-		public function processActionAnnotation($controller, $action, $annotation){ }
+		public function processActionAnnotation($module, $namespace, $controller, $action, $annotation){ }
+
+
+		/**
+		 * Changes the controller class suffix
+		 *
+		 * @param string $controllerSuffix
+		 */
+		public function setControllerSuffix($controllerSuffix){ }
+
+
+		/**
+		 * Changes the action method suffix
+		 *
+		 * @param string $actionSuffix
+		 */
+		public function setActionSuffix($actionSuffix){ }
+
+
+		/**
+		 * Return the registered resources
+		 *
+		 * @return array
+		 */
+		public function getResources(){ }
 
 	}
 }

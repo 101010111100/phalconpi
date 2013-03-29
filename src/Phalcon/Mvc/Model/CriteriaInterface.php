@@ -90,6 +90,24 @@ namespace Phalcon\Mvc\Model {
 
 
 		/**
+		 * Appends a condition to the current conditions using an AND operator
+		 *
+		 * @param string $conditions
+		 * @return \Phalcon\Mvc\Model\Criteria
+		 */
+		public function andWhere($conditions);
+
+
+		/**
+		 * Appends a condition to the current conditions using an OR operator
+		 *
+		 * @param string $conditions
+		 * @return \Phalcon\Mvc\Model\Criteria
+		 */
+		public function orWhere($conditions);
+
+
+		/**
 		 * Returns the conditions parameter in the criteria
 		 *
 		 * @return string
@@ -135,8 +153,9 @@ namespace Phalcon\Mvc\Model {
 		 * @param \Phalcon\DiInterface $dependencyInjector
 		 * @param string $modelName
 		 * @param array $data
+		 * @return static
 		 */
-		public function fromInput($dependencyInjector, $modelName, $data);
+		public static function fromInput($dependencyInjector, $modelName, $data);
 
 
 		/**

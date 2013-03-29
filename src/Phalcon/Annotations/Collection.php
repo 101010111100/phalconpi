@@ -21,7 +21,7 @@ namespace Phalcon\Annotations {
 	 *</code>
 	 */
 	
-	class Collection {
+	class Collection implements \Iterator, \Traversable, \Countable {
 
 		protected $_position;
 

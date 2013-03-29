@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace Phalcon\Mvc\Model\Transaction {
 
@@ -46,8 +46,8 @@ namespace Phalcon\Mvc\Model\Transaction {
 	 *</code>
 	 *
 	 */
-
-	class Manager implements ManagerInterface {
+	
+	class Manager implements \Phalcon\Mvc\Model\Transaction\ManagerInterface, \Phalcon\DI\InjectionAwareInterface {
 
 		protected $_dependencyInjector;
 
@@ -62,7 +62,7 @@ namespace Phalcon\Mvc\Model\Transaction {
 		protected $_transactions;
 
 		/**
-		 * \Phalcon\Mvc\Model\Transaction\Manager
+		 * \Phalcon\Mvc\Model\Transaction\Manager constructor
 		 *
 		 * @param \Phalcon\DiInterface $dependencyInjector
 		 */
@@ -129,11 +129,21 @@ namespace Phalcon\Mvc\Model\Transaction {
 
 		/**
 		 * Returns a new \Phalcon\Mvc\Model\Transaction or an already created once
+		 * This method registers a shutdown function to rollback active connections
 		 *
 		 * @param boolean $autoBegin
 		 * @return \Phalcon\Mvc\Model\TransactionInterface
 		 */
 		public function get($autoBegin=null){ }
+
+
+		/**
+		 * Create/Returns a new transaction or an existing one
+		 *
+		 * @param boolean $autoBegin
+		 * @return \Phalcon\Mvc\Model\TransactionInterface
+		 */
+		public function getOrCreateTransaction($autoBegin=null){ }
 
 
 		/**

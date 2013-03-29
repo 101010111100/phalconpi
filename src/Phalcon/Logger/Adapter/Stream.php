@@ -15,7 +15,7 @@ namespace Phalcon\Logger\Adapter {
 	 *</code>
 	 */
 	
-	class Stream extends \Phalcon\Logger\Adapter {
+	class Stream extends \Phalcon\Logger\Adapter implements \Phalcon\Logger\AdapterInterface {
 
 		protected $_stream;
 

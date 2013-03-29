@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace Phalcon\Http {
 
@@ -20,8 +20,8 @@ namespace Phalcon\Http {
 	 *</code>
 	 *
 	 */
-
-	class Request implements RequestInterface {
+	
+	class Request implements \Phalcon\Http\RequestInterface, \Phalcon\DI\InjectionAwareInterface {
 
 		protected $_dependencyInjector;
 

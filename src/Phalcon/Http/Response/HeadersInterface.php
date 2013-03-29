@@ -55,7 +55,7 @@ namespace Phalcon\Http\Response {
 		 * @param array $data
 		 * @return \Phalcon\Http\Response\HeadersInterface
 		 */
-		public function __set_state($data);
+		public static function __set_state($data);
 
 	}
 }

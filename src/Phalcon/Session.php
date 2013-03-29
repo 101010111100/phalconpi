@@ -2,6 +2,6 @@
 
 namespace Phalcon {
 
-	class Session {
+	abstract class Session {
 	}
 }

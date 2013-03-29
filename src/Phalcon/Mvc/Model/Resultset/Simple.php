@@ -9,7 +9,7 @@ namespace Phalcon\Mvc\Model\Resultset {
 	 * This class builds every complete object as it is required
 	 */
 	
-	class Simple extends \Phalcon\Mvc\Model\Resultset {
+	class Simple extends \Phalcon\Mvc\Model\Resultset implements \Serializable, \ArrayAccess, \Countable, \SeekableIterator, \Traversable, \Iterator, \Phalcon\Mvc\Model\ResultsetInterface {
 
 		const TYPE_RESULT_FULL = 0;
 
@@ -25,6 +25,8 @@ namespace Phalcon\Mvc\Model\Resultset {
 
 		protected $_columnMap;
 
+		protected $_keepSnapshots;
+
 		/**
 		 * \Phalcon\Mvc\Model\Resultset\Simple constructor
 		 *
@@ -32,8 +34,9 @@ namespace Phalcon\Mvc\Model\Resultset {
 		 * @param \Phalcon\Mvc\ModelInterface $model
 		 * @param \Phalcon\Db\Result\Pdo $result
 		 * @param \Phalcon\Cache\BackendInterface $cache
+		 * @param boolean $keepSnapshots
 		 */
-		public function __construct($columnMap, $model, $result, $cache=null){ }
+		public function __construct($columnMap, $model, $result, $cache=null, $keepSnapshots=null){ }
 
 
 		/**

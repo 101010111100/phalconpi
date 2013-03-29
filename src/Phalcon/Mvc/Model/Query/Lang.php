@@ -20,7 +20,7 @@ namespace Phalcon\Mvc\Model\Query {
 	 * </code>
 	 */
 	
-	class Lang {
+	abstract class Lang {
 
 		/**
 		 * Parses a PHQL statement returning an intermediate representation (IR)

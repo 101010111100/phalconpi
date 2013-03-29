@@ -20,7 +20,7 @@ namespace Phalcon\Mvc\Model {
 		 * This method receives the notifications from the EventsManager
 		 *
 		 * @param string $type
-		 * @param \Phalcon\Mvc\Model\Behavior $model
+		 * @param \Phalcon\Mvc\ModelInterface $model
 		 */
 		public function notify($type, $model);
 

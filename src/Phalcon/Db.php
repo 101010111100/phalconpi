@@ -39,7 +39,7 @@ namespace Phalcon {
 	 * </code>
 	 */
 	
-	class Db {
+	abstract class Db {
 
 		const FETCH_ASSOC = 1;
 

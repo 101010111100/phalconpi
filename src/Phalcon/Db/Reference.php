@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace Phalcon\Db {
 
@@ -16,8 +16,8 @@ namespace Phalcon\Db {
 	 *	));
 	 *</code>
 	 */
-
-	class Reference implements ReferenceInterface {
+	
+	class Reference implements \Phalcon\Db\ReferenceInterface {
 
 		protected $_schemaName;
 

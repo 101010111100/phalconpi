@@ -45,12 +45,12 @@ namespace Phalcon\Mvc\Model {
 		/**
 		 * Setup a 1-1 relation between two models
 		 *
-		 * @param 	Phalcon\Mvc\ModelInterface $model
+		 * @param   \Phalcon\Mvc\ModelInterface $model
 		 * @param mixed $fields
 		 * @param string $referenceModel
 		 * @param mixed $referencedFields
 		 * @param array $options
-		 * @return 	Phalcon\Mvc\Model\RelationInterface
+		 * @return  \Phalcon\Mvc\Model\RelationInterface
 		 */
 		public function addHasOne($model, $fields, $referenceModel, $referencedFields, $options=null);
 
@@ -259,7 +259,7 @@ namespace Phalcon\Mvc\Model {
 		 *
 		 * @param \Phalcon\Mvc\ModelInterface $model
 		 * @param string $eventName
-		 * @param aray $data
+		 * @param array $data
 		 * @return boolean
 		 */
 		public function missingMethod($model, $eventName, $data);

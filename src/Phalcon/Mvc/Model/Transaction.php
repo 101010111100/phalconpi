@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace Phalcon\Mvc\Model {
 
@@ -39,8 +39,8 @@ namespace Phalcon\Mvc\Model {
 	 *
 	 *</code>
 	 */
-
-	class Transaction implements TransactionInterface {
+	
+	class Transaction implements \Phalcon\Mvc\Model\TransactionInterface {
 
 		protected $_connection;
 

@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace Phalcon\Mvc\Model {
 
@@ -20,8 +20,8 @@ namespace Phalcon\Mvc\Model {
 	 * $robot = new Robots($dependencyInjector);
 	 * </code>
 	 */
-
-	class Manager implements ManagerInterface{
+	
+	class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\DI\InjectionAwareInterface, \Phalcon\Events\EventsAwareInterface {
 
 		protected $_dependencyInjector;
 
@@ -29,7 +29,9 @@ namespace Phalcon\Mvc\Model {
 
 		protected $_customEventsManager;
 
-		protected $_connectionServices;
+		protected $_readConnectionServices;
+
+		protected $_writeConnectionServices;
 
 		protected $_aliases;
 
@@ -47,6 +49,10 @@ namespace Phalcon\Mvc\Model {
 
 		protected $_initialized;
 
+		protected $_sources;
+
+		protected $_schemas;
+
 		protected $_behaviors;
 
 		protected $_lastInitialized;
@@ -54,6 +60,10 @@ namespace Phalcon\Mvc\Model {
 		protected $_lastQuery;
 
 		protected $_reusable;
+
+		protected $_keepSnapshots;
+
+		protected $_dynamicUpdate;
 
 		/**
 		 * Sets the DependencyInjector container
@@ -141,7 +151,45 @@ namespace Phalcon\Mvc\Model {
 
 
 		/**
-		 * Set a connection service for a model
+		 * Sets the mapped source for a model
+		 *
+		 * @param \Phalcon\Mvc\Model $model
+		 * @param string $source
+		 * @return string
+		 */
+		public function setModelSource($model, $source){ }
+
+
+		/**
+		 * Returns the mapped source for a model
+		 *
+		 * @param \Phalcon\Mvc\Model $model
+		 * @return string
+		 */
+		public function getModelSource($model){ }
+
+
+		/**
+		 * Sets the mapped schema for a model
+		 *
+		 * @param \Phalcon\Mvc\Model $model
+		 * @param string $schema
+		 * @return string
+		 */
+		public function setModelSchema($model, $schema){ }
+
+
+		/**
+		 * Returns the mapped schema for a model
+		 *
+		 * @param \Phalcon\Mvc\Model $model
+		 * @return string
+		 */
+		public function getModelSchema($model){ }
+
+
+		/**
+		 * Sets both write and read connection service for a model
 		 *
 		 * @param \Phalcon\Mvc\ModelInterface $model
 		 * @param string $connectionService
@@ -150,21 +198,57 @@ namespace Phalcon\Mvc\Model {
 
 
 		/**
-		 * Returns the connection related to a model
+		 * Sets write connection service for a model
+		 *
+		 * @param \Phalcon\Mvc\ModelInterface $model
+		 * @param string $connectionService
+		 */
+		public function setWriteConnectionService($model, $connectionService){ }
+
+
+		/**
+		 * Sets read connection service for a model
+		 *
+		 * @param \Phalcon\Mvc\ModelInterface $model
+		 * @param string $connectionService
+		 */
+		public function setReadConnectionService($model, $connectionService){ }
+
+
+		/**
+		 * Returns the connection to write data related to a model
 		 *
 		 * @param \Phalcon\Mvc\ModelInterface $model
 		 * @return \Phalcon\Db\AdapterInterface
 		 */
-		public function getConnection($model){ }
+		public function getWriteConnection($model){ }
 
 
 		/**
-		 * Returns the service name related to a model
+		 * Returns the connection to read data related to a model
+		 *
+		 * @param \Phalcon\Mvc\ModelInterface $model
+		 * @return \Phalcon\Db\AdapterInterface
+		 */
+		public function getReadConnection($model){ }
+
+
+		/**
+		 * Returns the connection service name used to read data related to a model
 		 *
 		 * @param \Phalcon\Mvc\ModelInterface $model
 		 * @param string
 		 */
-		public function getConnectionService($model){ }
+		public function getReadConnectionService($model){ }
+
+
+		/**
+		 * Returns the connection service name used to write data related to a model
+		 *
+		 * @param \Phalcon\Mvc\ModelInterface $model
+		 * @param string
+		 */
+		public function getWriteConnectionService($model){ }
 
 
 		/**
@@ -184,7 +268,7 @@ namespace Phalcon\Mvc\Model {
 		 *
 		 * @param \Phalcon\Mvc\ModelInterface $model
 		 * @param string $eventName
-		 * @param aray $data
+		 * @param array $data
 		 * @return boolean
 		 */
 		public function missingMethod($model, $eventName, $data){ }
@@ -200,9 +284,43 @@ namespace Phalcon\Mvc\Model {
 
 
 		/**
+		 * Sets if a model must keep snapshots
+		 *
+		 * @param \Phalcon\Mvc\Model $model
+		 * @param boolean $keepSnapshots
+		 */
+		public function keepSnapshots($model, $keepSnapshots){ }
+
+
+		/**
+		 * Checks if a model is keeping snapshots for the queried records
+		 *
+		 * @return boolean
+		 */
+		public function isKeepingSnapshots($model){ }
+
+
+		/**
+		 * Sets if a model must use dynamic update instead of the all-field update
+		 *
+		 * @param \Phalcon\Mvc\Model $model
+		 * @param boolean $dynamicUpdate
+		 */
+		public function useDynamicUpdate($model, $dynamicUpdate){ }
+
+
+		/**
+		 * Checks if a model is using dynamic update instead of all-field update
+		 *
+		 * @return boolean
+		 */
+		public function isUsingDynamicUpdate($model){ }
+
+
+		/**
 		 * Setup a 1-1 relation between two models
 		 *
-		 * @param 	Phalcon\Mvc\Model $model
+		 * @param   \Phalcon\Mvc\Model $model
 		 * @param mixed $fields
 		 * @param string $referencedModel
 		 * @param mixed $referencedFields
@@ -215,7 +333,7 @@ namespace Phalcon\Mvc\Model {
 		/**
 		 * Setup a relation reverse many to one between two models
 		 *
-		 * @param 	Phalcon\Mvc\Model $model
+		 * @param   \Phalcon\Mvc\Model $model
 		 * @param mixed $fields
 		 * @param string $referencedModel
 		 * @param mixed $referencedFields
@@ -292,12 +410,31 @@ namespace Phalcon\Mvc\Model {
 		public function getRelationRecords($relation, $method, $record, $parameters=null){ }
 
 
+		/**
+		 * Returns a reusable object from the internal list
+		 *
+		 * @param string $modelName
+		 * @param string $key
+		 * @return object
+		 */
 		public function getReusableRecords($modelName, $key){ }
 
 
+		/**
+		 * Stores a reusable record in the internal list
+		 *
+		 * @param string $modelName
+		 * @param string $key
+		 * @param mixed $records
+		 */
 		public function setReusableRecords($modelName, $key, $records){ }
 
 
+		/**
+		 * Clears the internal reusable list
+		 *
+		 * @param
+		 */
 		public function clearReusableObjects(){ }
 
 

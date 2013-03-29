@@ -9,6 +9,38 @@ namespace Phalcon\Logger {
 	interface AdapterInterface {
 
 		/**
+		 * Sets the message formatter
+		 *
+		 * @param \Phalcon\Logger\FormatterInterface $formatter
+		 */
+		public function setFormatter($formatter);
+
+
+		/**
+		 * Returns the internal formatter
+		 *
+		 * @return \Phalcon\Logger\FormatterInterface
+		 */
+		public function getFormatter();
+
+
+		/**
+		 * Filters the logs sent to the handlers to be greater or equals than a specific level
+		 *
+		 * @param int $level
+		 */
+		public function setLogLevel($level);
+
+
+		/**
+		 * Returns the current log level
+		 *
+		 * @return int
+		 */
+		public function getLogLevel();
+
+
+		/**
 		 * Sends/Writes messages to the file log
 		 *
 		 * @param string $message

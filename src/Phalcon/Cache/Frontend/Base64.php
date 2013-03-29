@@ -1,10 +1,8 @@
-<?php
+<?php 
 
 namespace Phalcon\Cache\Frontend {
 
-	use Phalcon\Cache\FrontendInterface;
-
-    class Base64 implements FrontendInterface {
+	class Base64 implements \Phalcon\Cache\FrontendInterface {
 
 		protected $_frontendOptions;
 

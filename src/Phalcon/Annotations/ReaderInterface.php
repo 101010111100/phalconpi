@@ -23,7 +23,7 @@ namespace Phalcon\Annotations {
 		 * @param string $docBlock
 		 * @return array
 		 */
-		public function parseDocBlock($docBlock, $file=null, $line=null);
+		public static function parseDocBlock($docBlock, $file=null, $line=null);
 
 	}
 }

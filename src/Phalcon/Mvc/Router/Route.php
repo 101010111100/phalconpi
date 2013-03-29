@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace Phalcon\Mvc\Router {
 
@@ -7,8 +7,8 @@ namespace Phalcon\Mvc\Router {
 	 *
 	 * This class represents every route added to the router
 	 */
-
-	class Route implements RouteInterface {
+	
+	class Route implements \Phalcon\Mvc\Router\RouteInterface {
 
 		protected $_pattern;
 

@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace Phalcon\Mvc\Model {
 
@@ -8,8 +8,8 @@ namespace Phalcon\Mvc\Model {
 	 * This class allows to build the array parameter required by Phalcon\Mvc\Model::find
 	 * and Phalcon\Mvc\Model::findFirst, using an object-oriented interfase
 	 */
-
-	class Criteria implements CriteriaInterface {
+	
+	class Criteria implements \Phalcon\Mvc\Model\CriteriaInterface, \Phalcon\DI\InjectionAwareInterface {
 
 		protected $_model;
 
@@ -67,12 +67,21 @@ namespace Phalcon\Mvc\Model {
 
 
 		/**
-		 * Appends a condition to the current conditions using an AND operator
+		 * Appends a condition to the current conditions using an AND operator (deprecated)
 		 *
 		 * @param string $conditions
 		 * @return \Phalcon\Mvc\Model\Criteria
 		 */
 		public function addWhere($conditions){ }
+
+
+		/**
+		 * Appends a condition to the current conditions using an AND operator
+		 *
+		 * @param string $conditions
+		 * @return \Phalcon\Mvc\Model\Criteria
+		 */
+		public function andWhere($conditions){ }
 
 
 		/**
@@ -176,6 +185,7 @@ namespace Phalcon\Mvc\Model {
 		 * @param \Phalcon\DiInterface $dependencyInjector
 		 * @param string $modelName
 		 * @param array $data
+		 * @return static
 		 */
 		public static function fromInput($dependencyInjector, $modelName, $data){ }
 

@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace Phalcon\Mvc\Model\Query {
 
@@ -17,8 +17,8 @@ namespace Phalcon\Mvc\Model\Query {
 	 *   ->execute();
 	 *</code>
 	 */
-
-	class Builder implements BuilderInterface {
+	
+	class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\DI\InjectionAwareInterface {
 
 		protected $_dependencyInjector;
 
@@ -73,7 +73,7 @@ namespace Phalcon\Mvc\Model\Query {
 		 * Sets the columns to be queried
 		 *
 		 *<code>
-		 *$builder->columns(array('id', 'name'));
+		 *	$builder->columns(array('id', 'name'));
 		 *</code>
 		 *
 		 * @param string|array $columns
@@ -94,7 +94,7 @@ namespace Phalcon\Mvc\Model\Query {
 		 * Sets the models who makes part of the query
 		 *
 		 *<code>
-		 *$builder->from(array('Robots', 'RobotsParts'));
+		 *	$builder->from(array('Robots', 'RobotsParts'));
 		 *</code>
 		 *
 		 * @param string|array $models
@@ -107,7 +107,7 @@ namespace Phalcon\Mvc\Model\Query {
 		 * Add a model to take part of the query
 		 *
 		 *<code>
-		 *$builder->addFrom('Robots', 'r');
+		 *	$builder->addFrom('Robots', 'r');
 		 *</code>
 		 *
 		 * @param string $model
@@ -129,7 +129,23 @@ namespace Phalcon\Mvc\Model\Query {
 		 * Adds a join to the query
 		 *
 		 *<code>
-		 *$builder->join('Robots', 'r.id = RobotsParts.robots_id', 'r');
+		 *	$builder->join('Robots', 'r.id = RobotsParts.robots_id', 'r');
+		 *</code>
+		 *
+		 * @param string $model
+		 * @param string $conditions
+		 * @param string $alias
+		 * @param string $type
+		 * @return \Phalcon\Mvc\Model\Query\Builder
+		 */
+		public function join($model, $conditions=null, $alias=null, $type=null){ }
+
+
+		/**
+		 * Adds a LEFT join to the query
+		 *
+		 *<code>
+		 *	$builder->leftJoin('Robots', 'r.id = RobotsParts.robots_id', 'r');
 		 *</code>
 		 *
 		 * @param string $model
@@ -137,7 +153,22 @@ namespace Phalcon\Mvc\Model\Query {
 		 * @param string $alias
 		 * @return \Phalcon\Mvc\Model\Query\Builder
 		 */
-		public function join($model, $conditions=null, $alias=null){ }
+		public function leftJoin($model, $conditions=null, $alias=null){ }
+
+
+		/**
+		 * Adds a RIGHT join to the query
+		 *
+		 *<code>
+		 *	$builder->rightJoin('Robots', 'r.id = RobotsParts.robots_id', 'r');
+		 *</code>
+		 *
+		 * @param string $model
+		 * @param string $conditions
+		 * @param string $alias
+		 * @return \Phalcon\Mvc\Model\Query\Builder
+		 */
+		public function rightJoin($model, $conditions=null, $alias=null){ }
 
 
 		/**
@@ -213,7 +244,7 @@ namespace Phalcon\Mvc\Model\Query {
 		 * Sets a HAVING condition clause. You need to escape PHQL reserved words using [ and ] delimiters
 		 *
 		 *<code>
-		 *$builder->having('SUM(Robots.price) > 0');
+		 *	$builder->having('SUM(Robots.price) > 0');
 		 *</code>
 		 *
 		 * @param string $having
@@ -279,7 +310,7 @@ namespace Phalcon\Mvc\Model\Query {
 		 * Sets a GROUP BY clause
 		 *
 		 *<code>
-		 *$builder->groupBy(array('Robots.name'));
+		 *	$builder->groupBy(array('Robots.name'));
 		 *</code>
 		 *
 		 * @param string $group

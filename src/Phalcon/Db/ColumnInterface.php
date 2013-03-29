@@ -127,7 +127,7 @@ namespace Phalcon\Db {
 		 * @param array $data
 		 * @return \Phalcon\Db\ColumnInterface
 		 */
-		public function __set_state($data);
+		public static function __set_state($data);
 
 	}
 }

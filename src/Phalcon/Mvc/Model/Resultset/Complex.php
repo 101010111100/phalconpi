@@ -9,7 +9,7 @@ namespace Phalcon\Mvc\Model\Resultset {
 	 * This class builds every complex row as the're required
 	 */
 	
-	class Complex extends \Phalcon\Mvc\Model\Resultset {
+	class Complex extends \Phalcon\Mvc\Model\Resultset implements \Serializable, \ArrayAccess, \Countable, \SeekableIterator, \Traversable, \Iterator, \Phalcon\Mvc\Model\ResultsetInterface {
 
 		const TYPE_RESULT_FULL = 0;
 

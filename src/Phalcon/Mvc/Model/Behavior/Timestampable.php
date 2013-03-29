@@ -9,7 +9,7 @@ namespace Phalcon\Mvc\Model\Behavior {
 	 * datetime when a record is created or updated
 	 */
 	
-	class Timestampable extends \Phalcon\Mvc\Model\Behavior {
+	class Timestampable extends \Phalcon\Mvc\Model\Behavior implements \Phalcon\Mvc\Model\BehaviorInterface {
 
 		/**
 		 * Listens for notifications from the models manager

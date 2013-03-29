@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace Phalcon\Mvc {
 
@@ -28,10 +28,16 @@ namespace Phalcon\Mvc {
 	 *</code>
 	 *
 	 */
+	
+	class Router implements \Phalcon\Mvc\RouterInterface, \Phalcon\DI\InjectionAwareInterface {
 
-	class Router implements RouterInterface {
+		const URI_SOURCE_GET_URL = 0;
+
+		const URI_SOURCE_SERVER_REQUEST_URI = 1;
 
 		protected $_dependencyInjector;
+
+		protected $_uriSource;
 
 		protected $_namespace;
 
@@ -63,6 +69,8 @@ namespace Phalcon\Mvc {
 
 		protected $_removeExtraSlashes;
 
+		protected $_notFoundPaths;
+
 		/**
 		 * \Phalcon\Mvc\Router constructor
 		 *
@@ -93,6 +101,18 @@ namespace Phalcon\Mvc {
 		 * @return string
 		 */
 		protected function _getRewriteUri(){ }
+
+
+		/**
+		 * Sets the URI source. One of the URI_SOURCE_* constants
+		 *
+		 *<code>
+		 *	$router->setUriSource(Router::URI_SOURCE_SERVER_REQUEST_URI);
+		 *</code>
+		 *
+		 * @param string $uriSource
+		 */
+		public function setUriSource($uriSource){ }
 
 
 		/**
@@ -168,7 +188,7 @@ namespace Phalcon\Mvc {
 
 
 		/**
-		 * Adds a route to the router on any HTTP method
+		 * Adds a route to the router without any HTTP constraint
 		 *
 		 *<code>
 		 * $router->add('/about', 'About::index');
@@ -258,6 +278,13 @@ namespace Phalcon\Mvc {
 		 * @param \Phalcon\Mvc\Router\Group $route
 		 */
 		public function mount($group){ }
+
+
+		/**
+		 * A set of paths used to
+		 *
+		 */
+		public function notFound($paths){ }
 
 
 		/**

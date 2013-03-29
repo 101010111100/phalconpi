@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace Phalcon\Mvc\Model {
 
@@ -7,8 +7,8 @@ namespace Phalcon\Mvc\Model {
 	 *
 	 * This class represents each relationship between two models
 	 */
-
-	class Relation implements RelationInterface {
+	
+	class Relation implements \Phalcon\Mvc\Model\RelationInterface {
 
 		const BELONGS_TO = 0;
 
@@ -116,6 +116,11 @@ namespace Phalcon\Mvc\Model {
 		public function getThrough(){ }
 
 
+		/**
+		 * Check if records in belongs-to/has-many are implicitly cached during the current request
+		 *
+		 * @return boolean
+		 */
 		public function isReusable(){ }
 
 	}

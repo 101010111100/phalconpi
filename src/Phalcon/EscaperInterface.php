@@ -13,7 +13,7 @@ namespace Phalcon {
 		 *
 		 * @param string $encoding
 		 */
-		public function setEnconding($encoding);
+		public function setEncoding($encoding);
 
 
 		/**

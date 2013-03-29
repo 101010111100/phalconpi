@@ -29,7 +29,7 @@ namespace Phalcon\Mvc\Model\Validator {
 	 *
 	 */
 	
-	class PresenceOf extends \Phalcon\Mvc\Model\Validator {
+	class PresenceOf extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\Model\ValidatorInterface {
 
 		/**
 		 * Executes the validator

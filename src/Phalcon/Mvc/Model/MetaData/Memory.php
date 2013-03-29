@@ -9,7 +9,7 @@ namespace Phalcon\Mvc\Model\MetaData {
 	 *
 	 */
 	
-	class Memory extends \Phalcon\Mvc\Model\MetaData {
+	class Memory extends \Phalcon\Mvc\Model\MetaData implements \Phalcon\DI\InjectionAwareInterface, \Phalcon\Mvc\Model\MetaDataInterface {
 
 		const MODELS_ATTRIBUTES = 0;
 

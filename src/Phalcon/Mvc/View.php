@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace Phalcon\Mvc {
 
@@ -23,8 +23,8 @@ namespace Phalcon\Mvc {
 	 * echo $view->getContent();
 	 * </code>
 	 */
-
-	class View extends \Phalcon\DI\Injectable implements ViewInterface{
+	
+	class View extends \Phalcon\DI\Injectable implements \Phalcon\Events\EventsAwareInterface, \Phalcon\DI\InjectionAwareInterface, \Phalcon\Mvc\ViewInterface {
 
 		const LEVEL_MAIN_LAYOUT = 5;
 
@@ -278,8 +278,9 @@ namespace Phalcon\Mvc {
 		 *</code>
 		 *
 		 * @param array $params
+		 * @param boolean $merge
 		 */
-		public function setVars($params){ }
+		public function setVars($params, $merge=null){ }
 
 
 		/**

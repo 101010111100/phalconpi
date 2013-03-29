@@ -8,7 +8,7 @@ namespace Phalcon\CLI {
 	 * Every command-line task should extend this class that encapsulates all the task functionality
 	 *
 	 * A task can be used to run "tasks" such as migrations, cronjobs, unit-tests, or anything that you want.
-	 * The Task class should at least have a "runAction" method
+	 * The Task class should at least have a "mainAction" method
 	 *
 	 *<code>
 	 *
@@ -16,7 +16,7 @@ namespace Phalcon\CLI {
 	 *{
 	 *
 	 *  //This action will be executed by default
-	 *  public function runAction()
+	 *  public function mainAction()
 	 *  {
 	 *
 	 *  }
@@ -26,18 +26,12 @@ namespace Phalcon\CLI {
 	 *
 	 *  }
 	 *
-	 *  //This action will be executed when a non existent action is requested
-	 *  public function notFoundAction()
-	 *  {
-	 *
-	 *  }
-	 *
 	 *}
 	 *
 	 *</code>
 	 */
 	
-	class Task extends \Phalcon\DI\Injectable {
+	class Task extends \Phalcon\DI\Injectable implements \Phalcon\Events\EventsAwareInterface, \Phalcon\DI\InjectionAwareInterface {
 
 		/**
 		 * \Phalcon\CLI\Task constructor

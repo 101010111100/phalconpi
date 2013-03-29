@@ -20,7 +20,7 @@ namespace Phalcon\Db\Adapter\Pdo {
 	 * </code>
 	 */
 	
-	class Postgresql extends \Phalcon\Db\Adapter\Pdo {
+	class Postgresql extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Events\EventsAwareInterface, \Phalcon\Db\AdapterInterface {
 
 		protected $_dialectType;
 

@@ -9,15 +9,6 @@ namespace Phalcon\Cache {
 	interface BackendInterface {
 
 		/**
-		 * \Phalcon\Cache\Backend constructor
-		 *
-		 * @param \Phalcon\Cache\FrontendInterface $frontend
-		 * @param array $options
-		 */
-		public function __construct($frontend, $options=null);
-
-
-		/**
 		 * Starts a cache. The $keyname allows to identify the created fragment
 		 *
 		 * @param int|string $keyName

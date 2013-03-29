@@ -8,7 +8,7 @@ namespace Phalcon\Logger\Formatter {
 	 * Prepares a message to be used in a Syslog backend
 	 */
 	
-	class Syslog extends \Phalcon\Logger\Formatter {
+	class Syslog extends \Phalcon\Logger\Formatter implements \Phalcon\Logger\FormatterInterface {
 
 		/**
 		 * Applies a format to a message before sent it to the internal log

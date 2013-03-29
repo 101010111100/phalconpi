@@ -8,7 +8,7 @@ namespace Phalcon {
 	 * Provides utilities when working with strings
 	 */
 	
-	class Text {
+	abstract class Text {
 
 		const RANDOM_ALNUM = 0;
 

@@ -26,7 +26,7 @@ namespace Phalcon {
 	 *</code>
 	 */
 	
-	class Loader {
+	class Loader implements \Phalcon\Events\EventsAwareInterface {
 
 		protected $_eventsManager;
 

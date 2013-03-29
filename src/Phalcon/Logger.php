@@ -2,7 +2,7 @@
 
 namespace Phalcon {
 
-	class Logger {
+	abstract class Logger {
 
 		const SPECIAL = 9;
 

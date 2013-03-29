@@ -9,7 +9,7 @@ namespace Phalcon\Translate\Adapter {
 	 *
 	 */
 	
-	class NativeArray extends \Phalcon\Translate\Adapter {
+	class NativeArray extends \Phalcon\Translate\Adapter implements \ArrayAccess, \Phalcon\Translate\AdapterInterface {
 
 		protected $_translate;
 

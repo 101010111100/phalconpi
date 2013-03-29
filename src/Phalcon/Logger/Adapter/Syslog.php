@@ -18,7 +18,7 @@ namespace Phalcon\Logger\Adapter {
 	 *</code>
 	 */
 	
-	class Syslog extends \Phalcon\Logger\Adapter {
+	class Syslog extends \Phalcon\Logger\Adapter implements \Phalcon\Logger\AdapterInterface {
 
 		protected $_opened;
 

@@ -14,7 +14,7 @@ namespace Phalcon\Mvc\View\Engine\Volt {
 	 *</code>
 	 */
 	
-	class Compiler {
+	class Compiler implements \Phalcon\DI\InjectionAwareInterface {
 
 		protected $_dependencyInjector;
 
@@ -26,6 +26,12 @@ namespace Phalcon\Mvc\View\Engine\Volt {
 
 		protected $_level;
 
+		protected $_foreachLevel;
+
+		protected $_blockLevel;
+
+		protected $_exprLevel;
+
 		protected $_extended;
 
 		protected $_autoescape;
@@ -36,9 +42,15 @@ namespace Phalcon\Mvc\View\Engine\Volt {
 
 		protected $_blocks;
 
+		protected $_forElsePointers;
+
+		protected $_loopPointers;
+
 		protected $_functions;
 
 		protected $_filters;
+
+		protected $_prefix;
 
 		protected $_currentPath;
 
@@ -121,6 +133,22 @@ namespace Phalcon\Mvc\View\Engine\Volt {
 
 
 		/**
+		 * Set a unique prefix to be used as prefix for compiled variables
+		 *
+		 * @param string $prefix
+		 */
+		public function setUniquePrefix($prefix){ }
+
+
+		/**
+		 * Return a unique prefix to be used as prefix for compiled variables and contexts
+		 *
+		 * @return string
+		 */
+		public function getUniquePrefix(){ }
+
+
+		/**
 		 * Resolves attribute reading
 		 *
 		 * @param array $expr
@@ -168,6 +196,54 @@ namespace Phalcon\Mvc\View\Engine\Volt {
 
 
 		protected function _statementListOrExtends(){ }
+
+
+		/**
+		 * Compiles a 'foreach' intermediate code representation into plain PHP code
+		 *
+		 * @param array $statement
+		 * @param boolean $extendsMode
+		 * @return string
+		 */
+		public function compileForeach($statement, $extendsMode=null){ }
+
+
+		/**
+		 * Generates a 'forelse' PHP code
+		 *
+		 * @return string
+		 */
+		public function compileForElse(){ }
+
+
+		public function compileIf($statement, $extendsMode=null){ }
+
+
+		public function compileElseIf($statement){ }
+
+
+		public function compileCache($statement, $extendsMode=null){ }
+
+
+		public function compileEcho($statement){ }
+
+
+		public function compileInclude($statement){ }
+
+
+		/**
+		 *
+		 */
+		public function compileSet($statement){ }
+
+
+		/**
+		 *
+		 */
+		public function compileDo($statement){ }
+
+
+		public function compileAutoEscape($statement, $extendsMode){ }
 
 
 		/**
@@ -232,6 +308,14 @@ namespace Phalcon\Mvc\View\Engine\Volt {
 		 * @return string|array
 		 */
 		public function compile($templatePath, $extendsMode=null){ }
+
+
+		/**
+		 * Returns the path that is currently beign compiled
+		 *
+		 * @return string
+		 */
+		public function getTemplatePath(){ }
 
 
 		/**

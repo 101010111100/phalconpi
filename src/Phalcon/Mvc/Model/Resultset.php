@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace Phalcon\Mvc\Model {
 
@@ -14,14 +14,14 @@ namespace Phalcon\Mvc\Model {
 	 *
 	 * //Using a standard foreach
 	 * $robots = Robots::find(array("type='virtual'", "order" => "name"));
-	 * foreach($robots as $robot){
+	 * foreach ($robots as $robot) {
 	 *  echo $robot->name, "\n";
 	 * }
 	 *
 	 * //Using a while
 	 * $robots = Robots::find(array("type='virtual'", "order" => "name"));
 	 * $robots->rewind();
-	 * while($robots->valid()){
+	 * while ($robots->valid()) {
 	 *  $robot = $robots->current();
 	 *  echo $robot->name, "\n";
 	 *  $robots->next();
@@ -29,8 +29,8 @@ namespace Phalcon\Mvc\Model {
 	 * </code>
 	 *
 	 */
-
-	abstract class Resultset implements ResultsetInterface {
+	
+	abstract class Resultset implements \Phalcon\Mvc\Model\ResultsetInterface, \Iterator, \Traversable, \SeekableIterator, \Countable, \ArrayAccess, \Serializable {
 
 		const TYPE_RESULT_FULL = 0;
 

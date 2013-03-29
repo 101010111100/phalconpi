@@ -16,10 +16,9 @@ namespace Phalcon {
 	 *	$filter->sanitize("!100a019", "int"); // returns "100019"
 	 *	$filter->sanitize("!100a019.01a", "float"); // returns "100019.01"
 	 *</code>
-	 *
 	 */
 	
-	class Filter {
+	class Filter implements \Phalcon\FilterInterface {
 
 		protected $_filters;
 

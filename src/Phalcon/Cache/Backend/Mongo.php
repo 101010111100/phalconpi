@@ -11,7 +11,7 @@ namespace Phalcon\Cache\Backend {
 	 *
 	 * // Cache data for 2 days
 	 * $frontCache = new Phalcon\Cache\Frontend\Base64(array(
-	 *    "lifetime" => 172800
+	 *		"lifetime" => 172800
 	 * ));
 	 *
 	 * //Create a MongoDB cache
@@ -22,7 +22,7 @@ namespace Phalcon\Cache\Backend {
 	 * ));
 	 *
 	 * //Cache arbitrary data
-	 * $cache->store('my-data', file_get_contents('some-image.jpg'));
+	 * $cache->save('my-data', file_get_contents('some-image.jpg'));
 	 *
 	 * //Get data
 	 * $data = $cache->get('my-data');
@@ -30,7 +30,7 @@ namespace Phalcon\Cache\Backend {
 	 *</code>
 	 */
 	
-	class Mongo extends \Phalcon\Cache\Backend {
+	class Mongo extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInterface {
 
 		protected $_collection;
 

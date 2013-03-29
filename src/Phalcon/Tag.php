@@ -10,7 +10,7 @@ namespace Phalcon {
 	 * This component is an abstract class that you can extend to add more helpers.
 	 */
 	
-	class Tag {
+	abstract class Tag {
 
 		const HTML32 = 1;
 
@@ -116,12 +116,37 @@ namespace Phalcon {
 
 
 		/**
+		 * Assigns default values to generated tags by helpers
+		 *
+		 * <code>
+		 * //Assigning "peter" to "name" component
+		 * \Phalcon\Tag::setDefaults(array("name" => "peter"));
+		 *
+		 * //Later in the view
+		 * echo \Phalcon\Tag::textField("name"); //Will have the value "peter" by default
+		 * </code>
+		 *
+		 * @param array $values
+		 */
+		public static function setDefaults($values){ }
+
+
+		/**
 		 * Alias of \Phalcon\Tag::setDefault
 		 *
 		 * @param string $id
 		 * @param string $value
 		 */
 		public static function displayTo($id, $value){ }
+
+
+		/**
+		 * Check if a helper has a default value set using \Phalcon\Tag::setDefault or value from $_POST
+		 *
+		 * @param string $name
+		 * @return boolean
+		 */
+		public static function hasValue($name){ }
 
 
 		/**
@@ -132,7 +157,7 @@ namespace Phalcon {
 		 * @param array $params
 		 * @return mixed
 		 */
-		public static function getValue($name, $params){ }
+		public static function getValue($name, $params=null){ }
 
 
 		/**
@@ -245,6 +270,19 @@ namespace Phalcon {
 
 
 		/**
+		 * Builds a HTML input[type="image"] tag
+		 *
+		 *<code>
+		 * echo \Phalcon\Tag::imageInput(array("src" => "/img/button.png"));
+		 *</code>
+		 *
+		 * @param array $parameters
+		 * @return string
+		 */
+		public static function imageInput($parameters){ }
+
+
+		/**
 		 * Builds a HTML input[type="submit"] tag
 		 *
 		 *<code>
@@ -272,7 +310,7 @@ namespace Phalcon {
 
 
 		/**
-		 * Builds a HTML SELECT tag using a \Phalcon_Model resultset as options
+		 * Builds a HTML SELECT tag using a \Phalcon\Mvc\Model resultset as options
 		 *
 		 *<code>
 		 *	echo \Phalcon\Tag::selectStatic(array(

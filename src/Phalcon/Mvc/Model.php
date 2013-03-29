@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace Phalcon\Mvc {
 
@@ -34,8 +34,8 @@ namespace Phalcon\Mvc {
 	 * </code>
 	 *
 	 */
-
-	class Model implements ModelInterface {
+	
+	abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\ResultInterface, \Phalcon\DI\InjectionAwareInterface, \Serializable {
 
 		const OP_NONE = 0;
 
@@ -57,17 +57,13 @@ namespace Phalcon\Mvc {
 
 		protected $_modelsMetaData;
 
-		protected $_schema;
-
-		protected $_source;
-
 		protected $_errorMessages;
 
 		protected $_operationMade;
 
 		protected $_dirtyState;
 
-		protected $_connection;
+		protected $_transaction;
 
 		protected $_uniqueKey;
 
@@ -78,6 +74,8 @@ namespace Phalcon\Mvc {
 		protected $_skipped;
 
 		protected $_related;
+
+		protected $_snapshot;
 
 		/**
 		 * \Phalcon\Mvc\Model constructor
@@ -179,7 +177,7 @@ namespace Phalcon\Mvc {
 
 
 		/**
-		 * Sets table name which model should be mapped (deprecated)
+		 * Sets table name which model should be mapped
 		 *
 		 * @param string $source
 		 * @return \Phalcon\Mvc\Model
@@ -196,7 +194,7 @@ namespace Phalcon\Mvc {
 
 
 		/**
-		 * Sets schema name where table mapped is located (deprecated)
+		 * Sets schema name where table mapped is located
 		 *
 		 * @param string $schema
 		 * @return \Phalcon\Mvc\Model
@@ -222,11 +220,37 @@ namespace Phalcon\Mvc {
 
 
 		/**
-		 * Returns the DependencyInjection connection service name related to the model
+		 * Sets the DependencyInjection connection service name used to read data
+		 *
+		 * @param string $connectionService
+		 * @return \Phalcon\Mvc\Model
+		 */
+		public function setReadConnectionService($connectionService){ }
+
+
+		/**
+		 * Sets the DependencyInjection connection service name used to write data
+		 *
+		 * @param string $connectionService
+		 * @return \Phalcon\Mvc\Model
+		 */
+		public function setWriteConnectionService($connectionService){ }
+
+
+		/**
+		 * Returns the DependencyInjection connection service name used to read data related the model
 		 *
 		 * @return string
 		 */
-		public function getConnectionService(){ }
+		public function getReadConnectionService(){ }
+
+
+		/**
+		 * Returns the DependencyInjection connection service name used to write data related to the model
+		 *
+		 * @return string
+		 */
+		public function getWriteConnectionService(){ }
 
 
 		/**
@@ -247,11 +271,38 @@ namespace Phalcon\Mvc {
 
 
 		/**
-		 * Gets the internal database connection
+		 * Gets the connection used to read data for the model
 		 *
 		 * @return \Phalcon\Db\AdapterInterface
 		 */
-		public function getConnection(){ }
+		public function getReadConnection(){ }
+
+
+		/**
+		 * Gets the connection used to write data to the model
+		 *
+		 * @return \Phalcon\Db\AdapterInterface
+		 */
+		public function getWriteConnection(){ }
+
+
+		/**
+		 * Assigns values to a model from an array
+		 *
+		 *<code>
+		 *$robot->assign(array(
+		 *  'type' => 'mechanical',
+		 *  'name' => 'Astro Boy',
+		 *  'year' => 1952
+		 *));
+		 *</code>
+		 *
+		 * @param \Phalcon\Mvc\Model $object
+		 * @param array $data
+		 * @param array $columnMap
+		 * @return \Phalcon\Mvc\Model
+		 */
+		public function assign($data, $columnMap=null){ }
 
 
 		/**
@@ -269,9 +320,10 @@ namespace Phalcon\Mvc {
 		 * @param array $data
 		 * @param array $columnMap
 		 * @param int $dirtyState
+		 * @param boolean $keepSnapshots
 		 * @return \Phalcon\Mvc\Model
 		 */
-		public static function cloneResultMap($base, $data, $columnMap, $dirtyState=null){ }
+		public static function cloneResultMap($base, $data, $columnMap, $dirtyState=null, $keepSnapshots=null){ }
 
 
 		/**
@@ -693,7 +745,10 @@ namespace Phalcon\Mvc {
 
 
 		/**
+		 * Save the related records assigned in the has-one/has-many relations
 		 *
+		 * @param \Phalcon\Db\AdapterInterface $connection
+		 * @param \Phalcon\Mvc\ModelInterface[] $related
 		 */
 		protected function _postSaveRelatedRecords(){ }
 
@@ -716,9 +771,10 @@ namespace Phalcon\Mvc {
 		 *</code>
 		 *
 		 * @param array $data
+		 * @param array $whiteList
 		 * @return boolean
 		 */
-		public function save($data=null){ }
+		public function save($data=null, $whiteList=null){ }
 
 
 		/**
@@ -743,9 +799,10 @@ namespace Phalcon\Mvc {
 		 *</code>
 		 *
 		 * @param array $data
+		 * @param array $whiteList
 		 * @return boolean
 		 */
-		public function create($data=null){ }
+		public function create($data=null, $whiteList=null){ }
 
 
 		/**
@@ -760,9 +817,10 @@ namespace Phalcon\Mvc {
 		 *</code>
 		 *
 		 * @param array $data
+		 * @param array $whiteList
 		 * @return boolean
 		 */
-		public function update($data=null){ }
+		public function update($data=null, $whiteList=null){ }
 
 
 		/**
@@ -792,6 +850,12 @@ namespace Phalcon\Mvc {
 
 
 		/**
+		 * Refreshes the model attributes re-querying the record from the database
+		 */
+		public function refresh(){ }
+
+
+		/**
 		 * Skips the current operation forcing a success state
 		 *
 		 * @param boolean $skip
@@ -816,7 +880,7 @@ namespace Phalcon\Mvc {
 		 * Writes an attribute value by its name
 		 *
 		 * <code>
-		 * $robot->writeAttribute('name', 'Rosey');
+		 * 	$robot->writeAttribute('name', 'Rosey');
 		 * </code>
 		 *
 		 * @param string $attribute
@@ -858,7 +922,7 @@ namespace Phalcon\Mvc {
 		 *
 		 *   public function initialize()
 		 *   {
-		 *       $this->skipAttributesOnUpdate(array('created_at'));
+		 *       $this->skipAttributesOnCreate(array('created_at'));
 		 *   }
 		 *
 		 *}
@@ -1016,6 +1080,91 @@ namespace Phalcon\Mvc {
 		 * @param \Phalcon\Mvc\Model\BehaviorInterface $behavior
 		 */
 		protected function addBehavior(){ }
+
+
+		/**
+		 * Sets if the model must keep the original record snapshot in memory
+		 *
+		 *<code>
+		 *
+		 *class Robots extends \Phalcon\Mvc\Model
+		 *{
+		 *
+		 *   public function initialize()
+		 *   {
+		 *		$this->keepSnapshots(true);
+		 *   }
+		 *
+		 *}
+		 *</code>
+		 *
+		 * @param boolean $keepSnapshots
+		 */
+		protected function keepSnapshots(){ }
+
+
+		/**
+		 * Sets the record's snapshot data.
+		 * This method is used internally to set snapshot data when the model was set up to keep snapshot data
+		 *
+		 * @param array $data
+		 * @param array $columnMap
+		 */
+		public function setSnapshotData($data, $columnMap=null){ }
+
+
+		/**
+		 * Checks if the object has internal snapshot data
+		 *
+		 * @return boolean
+		 */
+		public function hasSnapshotData(){ }
+
+
+		/**
+		 * Returns the internal snapshot data
+		 *
+		 * @return array
+		 */
+		public function getSnapshotData(){ }
+
+
+		/**
+		 * Check if an specific attribute has changed
+		 * This only works if the model is keeping data snapshots
+		 *
+		 * @param boolean $fieldName
+		 */
+		public function hasChanged($fieldName=null){ }
+
+
+		/**
+		 * Returns a list of changed values
+		 *
+		 * @return array
+		 */
+		public function getChangedFields(){ }
+
+
+		/**
+		 * Sets if a model must use dynamic update instead of the all-field update
+		 *
+		 *<code>
+		 *
+		 *class Robots extends \Phalcon\Mvc\Model
+		 *{
+		 *
+		 *   public function initialize()
+		 *   {
+		 *		$this->useDynamicUpdate(true);
+		 *   }
+		 *
+		 *}
+		 *</code>
+		 *
+		 * @param boolean $dynamicUpdate
+		 */
+		protected function useDynamicUpdate(){ }
 
 
 		/**

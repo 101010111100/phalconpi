@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace Phalcon\Mvc\Model {
 
@@ -18,8 +18,8 @@ namespace Phalcon\Mvc\Model {
 	 * </code>
 	 *
 	 */
-
-	abstract class MetaData implements MetaDataInterface {
+	
+	abstract class MetaData implements \Phalcon\DI\InjectionAwareInterface {
 
 		const MODELS_ATTRIBUTES = 0;
 

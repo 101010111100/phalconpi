@@ -9,7 +9,7 @@ namespace Phalcon\Mvc\Model\Behavior {
 	 * deleted changing the value of a flag column
 	 */
 	
-	class SoftDelete extends \Phalcon\Mvc\Model\Behavior {
+	class SoftDelete extends \Phalcon\Mvc\Model\Behavior implements \Phalcon\Mvc\Model\BehaviorInterface {
 
 		/**
 		 * Listens for notifications from the models manager

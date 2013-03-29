@@ -8,7 +8,7 @@ namespace Phalcon\Logger\Formatter {
 	 * Formats messages using a one-line string
 	 */
 	
-	class Line extends \Phalcon\Logger\Formatter {
+	class Line extends \Phalcon\Logger\Formatter implements \Phalcon\Logger\FormatterInterface {
 
 		protected $_dateFormat;
 

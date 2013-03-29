@@ -46,7 +46,7 @@ namespace Phalcon\Mvc {
 	 *</code>
 	 */
 	
-	class Application extends \Phalcon\DI\Injectable {
+	class Application extends \Phalcon\DI\Injectable implements \Phalcon\Events\EventsAwareInterface, \Phalcon\DI\InjectionAwareInterface {
 
 		protected $_defaultModule;
 

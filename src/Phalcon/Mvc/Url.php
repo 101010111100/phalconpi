@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace Phalcon\Mvc {
 
@@ -17,8 +17,8 @@ namespace Phalcon\Mvc {
 	 *
 	 *</code>
 	 */
-
-	class Url implements UrlInterface {
+	
+	class Url implements \Phalcon\Mvc\UrlInterface, \Phalcon\DI\InjectionAwareInterface {
 
 		protected $_dependencyInjector;
 

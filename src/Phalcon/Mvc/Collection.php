@@ -9,7 +9,7 @@ namespace Phalcon\Mvc {
 	 * works with documents
 	 */
 	
-	class Collection {
+	class Collection implements \Phalcon\Mvc\CollectionInterface, \Phalcon\DI\InjectionAwareInterface, \Serializable {
 
 		const OP_NONE = 0;
 
@@ -475,6 +475,19 @@ namespace Phalcon\Mvc {
 		 * @return array
 		 */
 		public static function count($parameters=null){ }
+
+
+		/**
+		 * Perform an aggregation using the Mongo aggregation framework
+		 *
+		 *<code>
+		 * echo 'There are ', Robots::aggregate(), ' robots';
+		 *</code>
+		 *
+		 * @param array $parameters
+		 * @return array
+		 */
+		public static function aggregate($parameters){ }
 
 
 		/**

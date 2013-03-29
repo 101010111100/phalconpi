@@ -28,7 +28,7 @@ namespace Phalcon {
 	 *
 	 */
 	
-	class Config {
+	class Config implements \ArrayAccess {
 
 		/**
 		 * \Phalcon\Config constructor

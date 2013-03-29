@@ -26,7 +26,7 @@ namespace Phalcon\CLI {
 	 *</code>
 	 */
 	
-	class Dispatcher extends \Phalcon\Dispatcher {
+	class Dispatcher extends \Phalcon\Dispatcher implements \Phalcon\Events\EventsAwareInterface, \Phalcon\DI\InjectionAwareInterface, \Phalcon\DispatcherInterface {
 
 		const EXCEPTION_NO_DI = 0;
 

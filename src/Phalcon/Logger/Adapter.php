@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace Phalcon\Logger {
 
@@ -7,14 +7,30 @@ namespace Phalcon\Logger {
 	 *
 	 * Base class for Phalcon\Logger adapters
 	 */
-
-	abstract class Adapter implements AdapterInterface {
+	
+	abstract class Adapter {
 
 		protected $_transaction;
 
 		protected $_queue;
 
 		protected $_formatter;
+
+		protected $_logLevel;
+
+		/**
+		 * Filters the logs sent to the handlers to be less or equals than a specific level
+		 *
+		 * @param int $level
+		 */
+		public function setLogLevel($level){ }
+
+
+		/**
+		 * Returns the current log level
+		 */
+		public function getLogLevel(){ }
+
 
 		/**
 		 * Sets the message formatter

@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace Phalcon\Session {
 
@@ -7,8 +7,8 @@ namespace Phalcon\Session {
 	 *
 	 * Base class for Phalcon\Session adapters
 	 */
-
-	class Adapter implements AdapterInterface{
+	
+	abstract class Adapter {
 
 		protected $_uniqueId;
 
@@ -67,9 +67,9 @@ namespace Phalcon\Session {
 		/**
 		 * Sets a session variable in an application context
 		 *
-		 *<comment>
+		 *<code>
 		 *	$session->set('auth', 'yes');
-		 *</comment>
+		 *</code>
 		 *
 		 * @param string $index
 		 * @param string $value
@@ -80,9 +80,9 @@ namespace Phalcon\Session {
 		/**
 		 * Check whether a session variable is set in an application context
 		 *
-		 *<comment>
+		 *<code>
 		 *	var_dump($session->has('auth'));
-		 *</comment>
+		 *</code>
 		 *
 		 * @param string $index
 		 */
@@ -92,9 +92,9 @@ namespace Phalcon\Session {
 		/**
 		 * Removes a session variable from an application context
 		 *
-		 *<comment>
+		 *<code>
 		 *	$session->remove('auth');
-		 *</comment>
+		 *</code>
 		 *
 		 * @param string $index
 		 */
@@ -104,9 +104,9 @@ namespace Phalcon\Session {
 		/**
 		 * Returns active session id
 		 *
-		 *<comment>
+		 *<code>
 		 *	echo $session->getId();
-		 *</comment>
+		 *</code>
 		 *
 		 * @return string
 		 */
@@ -116,9 +116,9 @@ namespace Phalcon\Session {
 		/**
 		 * Check whether the session has been started
 		 *
-		 *<comment>
+		 *<code>
 		 *	var_dump($session->isStarted());
-		 *</comment>
+		 *</code>
 		 *
 		 * @return boolean
 		 */
@@ -128,9 +128,9 @@ namespace Phalcon\Session {
 		/**
 		 * Destroys the active session
 		 *
-		 *<comment>
+		 *<code>
 		 *	var_dump($session->destroy());
-		 *</comment>
+		 *</code>
 		 *
 		 * @return boolean
 		 */

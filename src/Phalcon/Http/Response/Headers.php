@@ -8,7 +8,7 @@ namespace Phalcon\Http\Response {
 	 * This class is a bag to manage the response headers
 	 */
 	
-	class Headers {
+	class Headers implements \Phalcon\Http\Response\HeadersInterface {
 
 		protected $_headers;
 

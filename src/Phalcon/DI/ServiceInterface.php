@@ -74,7 +74,7 @@ namespace Phalcon\DI {
 		 * @param array $attributes
 		 * @return \Phalcon\DI\ServiceInterface
 		 */
-		public function __set_state($attributes);
+		public static function __set_state($attributes);
 
 	}
 }

@@ -11,7 +11,7 @@ namespace Phalcon\DI\FactoryDefault {
 	 * This class is specially suitable for CLI applications
 	 */
 	
-	class CLI extends \Phalcon\DI\FactoryDefault {
+	class CLI extends \Phalcon\DI\FactoryDefault implements \Phalcon\DiInterface {
 
 		/**
 		 * \Phalcon\DI\FactoryDefault\CLI constructor

@@ -16,7 +16,7 @@ namespace Phalcon\Logger\Adapter {
 	 *</code>
 	 */
 	
-	class File extends \Phalcon\Logger\Adapter {
+	class File extends \Phalcon\Logger\Adapter implements \Phalcon\Logger\AdapterInterface {
 
 		protected $_fileHandler;
 

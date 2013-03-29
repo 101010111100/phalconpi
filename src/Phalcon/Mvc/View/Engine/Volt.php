@@ -8,7 +8,7 @@ namespace Phalcon\Mvc\View\Engine {
 	 * Designer friendly and fast template engine for PHP written in C
 	 */
 	
-	class Volt extends \Phalcon\Mvc\View\Engine {
+	class Volt extends \Phalcon\Mvc\View\Engine implements \Phalcon\DI\InjectionAwareInterface, \Phalcon\Events\EventsAwareInterface, \Phalcon\Mvc\View\EngineInterface {
 
 		protected $_options;
 
@@ -55,6 +55,16 @@ namespace Phalcon\Mvc\View\Engine {
 		 * @return int
 		 */
 		public function length($item){ }
+
+
+		/**
+		 * Checks if the needle is included in the haystack
+		 *
+		 * @param mixed $needle
+		 * @param mixed $haystack
+		 * @return boolean
+		 */
+		public function isIncluded($needle, $haystack){ }
 
 
 		/**

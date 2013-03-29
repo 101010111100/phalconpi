@@ -9,7 +9,7 @@ namespace Phalcon\Http\Response {
 	 *
 	 */
 	
-	class Cookies {
+	class Cookies implements \Phalcon\DI\InjectionAwareInterface {
 
 		protected $_dependencyInjector;
 

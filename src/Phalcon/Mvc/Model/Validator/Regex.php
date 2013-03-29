@@ -5,7 +5,7 @@ namespace Phalcon\Mvc\Model\Validator {
 	/**
 	 * Phalcon\Mvc\Model\Validator\Regex
 	 *
-	 * Allows to validate if the value of a field matches a regular expression
+	 * Allows validate if the value of a field matches a regular expression
 	 *
 	 *<code>
 	 *use Phalcon\Mvc\Model\Validator\Regex as RegexValidator;
@@ -29,7 +29,7 @@ namespace Phalcon\Mvc\Model\Validator {
 	 *
 	 */
 	
-	class Regex extends \Phalcon\Mvc\Model\Validator {
+	class Regex extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\Model\ValidatorInterface {
 
 		/**
 		 * Executes the validator

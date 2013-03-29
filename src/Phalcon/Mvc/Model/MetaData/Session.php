@@ -12,12 +12,12 @@ namespace Phalcon\Mvc\Model\MetaData {
 	 *
 	 *<code>
 	 * $metaData = new Phalcon\Mvc\Model\Metadata\Session(array(
-	 *    'suffix' => 'my-app-id'
+	 *    'prefix' => 'my-app-id'
 	 * ));
 	 *</code>
 	 */
 	
-	class Session extends \Phalcon\Mvc\Model\MetaData {
+	class Session extends \Phalcon\Mvc\Model\MetaData implements \Phalcon\DI\InjectionAwareInterface, \Phalcon\Mvc\Model\MetaDataInterface {
 
 		const MODELS_ATTRIBUTES = 0;
 
@@ -47,7 +47,7 @@ namespace Phalcon\Mvc\Model\MetaData {
 
 		const MODELS_REVERSE_COLUMN_MAP = 1;
 
-		protected $_suffix;
+		protected $_prefix;
 
 		/**
 		 * \Phalcon\Mvc\Model\MetaData\Session constructor

@@ -18,7 +18,7 @@ namespace Phalcon\Db\Adapter {
 	 * </code>
 	 */
 	
-	class Pdo extends \Phalcon\Db\Adapter {
+	abstract class Pdo extends \Phalcon\Db\Adapter implements \Phalcon\Events\EventsAwareInterface {
 
 		protected $_pdo;
 
@@ -55,6 +55,20 @@ namespace Phalcon\Db\Adapter {
 		 * @return 	boolean
 		 */
 		public function connect($descriptor=null){ }
+
+
+		/**
+		 * Returns a PDO prepared statement to be executed with 'executePrepared'
+		 *
+		 *<code>
+		 * $statement = $db->prepare('SELECT * FROM robots WHERE name = :name');
+		 * $result = $connection->executePrepared($statement, array('name' => 'Voltron'));
+		 *</code>
+		 *
+		 * @param string $sqlStatement
+		 * @return \PDOStatement
+		 */
+		public function prepare($sqlStatement){ }
 
 
 		/**
@@ -113,7 +127,7 @@ namespace Phalcon\Db\Adapter {
 		 * Returns the number of affected rows by the lastest INSERT/UPDATE/DELETE executed in the database system
 		 *
 		 *<code>
-		 *	$connection->query("DELETE FROM robots");
+		 *	$connection->execute("DELETE FROM robots");
 		 *	echo $connection->affectedRows(), ' were deleted';
 		 *</code>
 		 *

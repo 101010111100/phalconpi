@@ -8,7 +8,7 @@ namespace Phalcon\CLI {
 	 * This component allows to create CLI applications using Phalcon
 	 */
 	
-	class Console {
+	class Console implements \Phalcon\DI\InjectionAwareInterface, \Phalcon\Events\EventsAwareInterface {
 
 		protected $_dependencyInjector;
 

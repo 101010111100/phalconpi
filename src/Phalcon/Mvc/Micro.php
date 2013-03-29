@@ -22,7 +22,7 @@ namespace Phalcon\Mvc {
 	 *</code>
 	 */
 	
-	class Micro extends \Phalcon\DI\Injectable {
+	class Micro extends \Phalcon\DI\Injectable implements \Phalcon\Events\EventsAwareInterface, \Phalcon\DI\InjectionAwareInterface, \ArrayAccess {
 
 		protected $_dependencyInjector;
 

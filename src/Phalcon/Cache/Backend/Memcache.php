@@ -24,7 +24,7 @@ namespace Phalcon\Cache\Backend {
 	 * ));
 	 *
 	 * //Cache arbitrary data
-	 * $cache->store('my-data', array(1, 2, 3, 4, 5));
+	 * $cache->save('my-data', array(1, 2, 3, 4, 5));
 	 *
 	 * //Get data
 	 * $data = $cache->get('my-data');
@@ -32,7 +32,7 @@ namespace Phalcon\Cache\Backend {
 	 *</code>
 	 */
 	
-	class Memcache extends \Phalcon\Cache\Backend {
+	class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInterface {
 
 		protected $_memcache;
 

@@ -80,7 +80,7 @@ namespace Phalcon\Mvc\Model {
 		 * @param array $message
 		 * @return \Phalcon\Mvc\Model\MessageInterface
 		 */
-		public function __set_state($message);
+		public static function __set_state($message);
 
 	}
 }

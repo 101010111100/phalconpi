@@ -71,7 +71,7 @@ namespace Phalcon\Db {
 		 * @param array $data
 		 * @return \Phalcon\Db\ReferenceInterface
 		 */
-		public function __set_state($data);
+		public static function __set_state($data);
 
 	}
 }

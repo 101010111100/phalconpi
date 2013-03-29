@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace Phalcon {
 
@@ -34,8 +34,8 @@ namespace Phalcon {
 	 *
 	 *</code>
 	 */
-
-	class DI implements DiInterface {
+	
+	class DI implements \Phalcon\DiInterface {
 
 		protected $_services;
 

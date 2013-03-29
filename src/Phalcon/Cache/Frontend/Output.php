@@ -1,7 +1,6 @@
-<?php
+<?php 
 
 namespace Phalcon\Cache\Frontend {
-	use Phalcon\Cache\FrontendInterface;
 
 	/**
 	 * Phalcon\Cache\Frontend\Output
@@ -9,7 +8,7 @@ namespace Phalcon\Cache\Frontend {
 	 * Allows to cache output fragments captured with ob_* functions
 	 *
 	 *<code>
-	 *
+	 * 
 	 * //Create an Output frontend. Cache the files for 2 days
 	 * $frontCache = new Phalcon\Cache\Frontend\Output(array(
 	 *   "lifetime" => 172800
@@ -50,8 +49,8 @@ namespace Phalcon\Cache\Frontend {
 	 * }
 	 *</code>
 	 */
-
-	class Output implements FrontendInterface {
+	
+	class Output implements \Phalcon\Cache\FrontendInterface {
 
 		protected $_buffering;
 

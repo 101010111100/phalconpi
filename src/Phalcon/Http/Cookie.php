@@ -8,7 +8,7 @@ namespace Phalcon\Http {
 	 * Provide OO wrappers to manage a HTTP cookie
 	 */
 	
-	class Cookie {
+	class Cookie implements \Phalcon\DI\InjectionAwareInterface {
 
 		protected $_readed;
 

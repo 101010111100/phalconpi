@@ -8,7 +8,7 @@ namespace Phalcon\Db\Dialect {
 	 * Generates database specific SQL for the PostgreSQL RBDM
 	 */
 	
-	class Postgresql extends \Phalcon\Db\Dialect {
+	class Postgresql extends \Phalcon\Db\Dialect implements \Phalcon\Db\DialectInterface {
 
 		protected $_escapeChar;
 

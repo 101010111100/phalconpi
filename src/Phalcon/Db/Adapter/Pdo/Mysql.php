@@ -21,7 +21,7 @@ namespace Phalcon\Db\Adapter\Pdo {
 	 * </code>
 	 */
 	
-	class Mysql extends \Phalcon\Db\Adapter\Pdo {
+	class Mysql extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Events\EventsAwareInterface, \Phalcon\Db\AdapterInterface {
 
 		protected $_dialectType;
 

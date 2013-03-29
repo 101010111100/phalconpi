@@ -8,7 +8,7 @@ namespace Phalcon\Annotations\Adapter {
 	 * Stores the parsed annotations in memory. This adapter is the suitable for development/testing
 	 */
 	
-	class Memory extends \Phalcon\Annotations\Adapter {
+	class Memory extends \Phalcon\Annotations\Adapter implements \Phalcon\Annotations\AdapterInterface {
 
 		protected $_data;
 
