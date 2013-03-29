@@ -26,7 +26,7 @@ namespace Phalcon {
 
             $version[] = 1;
             $version[] = 0;
-            $version[] = 0;
+            $version[] = 1;
             $version[] = 4;
             $version[] = 0;
 
