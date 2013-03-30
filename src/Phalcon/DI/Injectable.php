@@ -100,7 +100,14 @@ namespace Phalcon\DI {
 		 *
 		 * @param \Phalcon\DiInterface $dependencyInjector
 		 */
-		public function setDI($dependencyInjector){ }
+		public function setDI($dependencyInjector)
+        {
+            if (!is_object($dependencyInjector)) {
+                throw new \Phalcon\DI\Exception('Dependency Injector is invalid');
+            }
+
+            $this->__dependencyInjector = $dependencyInjector;
+        }
 
 
 		/**
@@ -108,7 +115,10 @@ namespace Phalcon\DI {
 		 *
 		 * @return \Phalcon\DiInterface
 		 */
-		public function getDI(){ }
+		public function getDI()
+        {
+            return $this->_dependencyInjector;
+        }
 
 
 		/**
@@ -116,7 +126,14 @@ namespace Phalcon\DI {
 		 *
 		 * @param \Phalcon\Events\ManagerInterface $eventsManager
 		 */
-		public function setEventsManager($eventsManager){ }
+		public function setEventsManager($eventsManager)
+        {
+            if (!is_object($eventsManager)) {
+                throw new \Phalcon\DI\Exception('Events manager is invalid');
+            }
+
+            $this->_eventsManager = $eventsManager;
+        }
 
 
 		/**
@@ -124,7 +141,10 @@ namespace Phalcon\DI {
 		 *
 		 * @return \Phalcon\Events\ManagerInterface
 		 */
-		public function getEventsManager(){ }
+		public function getEventsManager()
+        {
+            return $this->_eventsManager;
+        }
 
 
 		/**
@@ -132,7 +152,54 @@ namespace Phalcon\DI {
 		 *
 		 * @param string $propertyName
 		 */
-		public function __get($propertyName){ }
+		public function __get($propertyName)
+        {
+            $dependencyInjector = $this->_dependencyInjector;
+
+            if (!is_object($dependencyInjector)) {
+                $dependencyInjector = \Phalcon\DI::getDefault();
+
+                if (!is_object($dependencyInjector)) {
+                    throw new \Phalcon\DI\Exception('A dependency injection object is required to access the application services');
+                }
+            }
+
+            /**
+             * This class injects a public property with a resolved service
+             */
+            if ($dependencyInjector->has($propertyName)) {
+                $service = $dependencyInjector->getShared($propertyName);
+
+                $this->$propertyName = $service;
+
+                return $service;
+            }
+
+            if ('di' == $propertyName) {
+                $this->di = $dependencyInjector;
+
+                return $dependencyInjector;
+            }
+
+            /**
+             * Accessing the persistent property will create a session bag in any class
+             */
+            if ('persistent' == $propertyName) {
+                $className = get_class($this);
+                $arguments = array($className);
+
+                $persistent = $dependencyInjector->get('sessionBag', $arguments);
+
+                $this->persistent = $persistent;
+
+                return $persistent;
+            }
+
+            /**
+             * A notice is shown if the property is not defined and isn't a valid service
+             */
+            trigger_error('Access to undefined property "' . $propertyName . '"');
+        }
 
 	}
 }

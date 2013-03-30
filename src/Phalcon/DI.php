@@ -49,7 +49,12 @@ namespace Phalcon {
 		 * \Phalcon\DI constructor
 		 *
 		 */
-		public function __construct(){ }
+		public function __construct()
+        {
+            if (!self::$_default) {
+                self::$_default = $this;
+            }
+        }
 
 
 		/**
@@ -58,9 +63,25 @@ namespace Phalcon {
 		 * @param string $name
 		 * @param mixed $definition
 		 * @param boolean $shared
+         *
 		 * @return \Phalcon\DI\ServiceInterface
 		 */
-		public function set($name, $definition, $shared=null){ }
+		public function set($name, $definition, $shared = null)
+        {
+            if (!$shared) {
+                $shared = false;
+            }
+
+            if (!is_string($name)) {
+                throw new \Phalcon\DI\Exception('The service name must be a string');
+            }
+
+            $service = new \Phalcon\DI\Service($name, $definition, $shared);
+
+            $this->_services[$name] = $service;
+
+            return $service;
+        }
 
 
 		/**
@@ -68,9 +89,13 @@ namespace Phalcon {
 		 *
 		 * @param string $name
 		 * @param mixed $definition
+         *
 		 * @return \Phalcon\DI\ServiceInterface
 		 */
-		public function setShared($name, $definition){ }
+		public function setShared($name, $definition)
+        {
+            return $this->set($name, $definition, true);
+        }
 
 
 		/**
@@ -78,7 +103,14 @@ namespace Phalcon {
 		 *
 		 * @param string $name
 		 */
-		public function remove($name){ }
+		public function remove($name)
+        {
+            if (!is_string($name)) {
+                throw new \Phalcon\DI\Exception('The service name must be a string');
+            }
+
+            unset($this->_services[$name]);
+        }
 
 
 		/**
@@ -89,9 +121,19 @@ namespace Phalcon {
 		 * @param string $name
 		 * @param mixed $definition
 		 * @param boolean $shared
+         *
 		 * @return \Phalcon\DI\ServiceInterface
 		 */
-		public function attempt($name, $definition, $shared=null){ }
+		public function attempt($name, $definition, $shared = null)
+        {
+            if (!is_string($name)) {
+                throw new \Phalcon\DI\Exception('The service name must be a string');
+            }
+
+            if (!array_key_exists($name, $this->_services)) {
+                return $this->set($name, $definition, $shared);
+            }
+        }
 
 
 		/**
@@ -99,27 +141,69 @@ namespace Phalcon {
 		 *
 		 * @param string $name
 		 * @param \Phalcon\DI\ServiceInterface $rawDefinition
+         *
 		 * @return \Phalcon\DI\ServiceInterface
 		 */
-		public function setRaw($name, $rawDefinition){ }
+		public function setRaw($name, $rawDefinition)
+        {
+            if (!is_string($name)) {
+                throw new \Phalcon\DI\Exception('The service name must be a string');
+            }
+
+            if (!is_object($rawDefinition)) {
+                throw new \Phalcon\DI\Exception('The service definition must be an object');
+            }
+
+            $this->_services[$name] = $rawDefinition;
+
+            return $rawDefinition;
+        }
 
 
 		/**
 		 * Returns a service definition without resolving
 		 *
 		 * @param string $name
+         *
 		 * @return mixed
 		 */
-		public function getRaw($name){ }
+		public function getRaw($name)
+        {
+            if (!is_string($name)) {
+                throw new \Phalcon\DI\Exception('The service name must be a string');
+            }
+
+            if (array_key_exists($name, $this->_services)) {
+                $service = $this->_services[$name];
+
+                $definition = $service->getDefinition();
+
+                return $definition;
+            }
+
+            throw new \Phalcon\DI\Exception('Service "' . $name . '" wasn\'t found in the dependency injection container');
+        }
 
 
 		/**
 		 * Returns a \Phalcon\DI\Service instance
 		 *
 		 * @param string $name
+         *
 		 * @return \Phalcon\DI\ServiceInterface
 		 */
-		public function getService($name){ }
+		public function getService($name)
+        {
+            if (!is_string($name)) {
+                throw new \Phalcon\DI\Exception('The service name must be a string');
+            }
+
+            if (array_key_exists($name, $this->_services)) {
+                return $this->_services[$name];
+            }
+
+            throw new \Phalcon\DI\Exception('Service "' . $name . '" wasn\'t found in the dependency injection container');
+        }
 
 
 		/**
@@ -127,9 +211,38 @@ namespace Phalcon {
 		 *
 		 * @param string $name
 		 * @param array $parameters
+         *
 		 * @return mixed
 		 */
-		public function get($name, $parameters=null){ }
+		public function get($name, $parameters = null)
+        {
+            if (!is_string($name)) {
+                throw new \Phalcon\DI\Exception('The service name must be a string');
+            }
+
+            if (array_key_exists($name, $this->_services)) {
+                /**
+                 * The service is registered in the DI
+                 */
+                $service = $this->_services[$name];
+                $instance = $service->resolve($parameters);
+            } else {
+                /**
+                 * The DI also acts as builder for any class even if it isn't defined in the DI
+                 */
+                if (class_exists($name)) {
+                    $instance = new $name($parameters);
+                } else {
+                    throw new \Phalcon\DI\Exception('Service "' . $name . '" wasn\'t found in the dependency injection container');
+                }
+            }
+
+            if (is_object($instance)) {
+                $instance->setDI($instance);
+            }
+
+            return $instance;
+        }
 
 
 		/**
@@ -137,18 +250,55 @@ namespace Phalcon {
 		 *
 		 * @param string $name
 		 * @param array $parameters
+         *
 		 * @return mixed
 		 */
-		public function getShared($name, $parameters=null){ }
+		public function getShared($name, $parameters = null)
+        {
+            if (!is_string($name)) {
+                throw new \Phalcon\DI\Exception('The service name must be a string');
+            }
+
+            /**
+             * This method provides a first level to shared instances allowing to use
+             * non-shared services as shared
+             */
+            if (array_key_exists($name, $this->_sharedInstances)) {
+                $instance = $this->_sharedInstances[$name];
+
+                $this->_freshInstance = false;
+            } else {
+                /**
+                 * Resolve the instance normally
+                 */
+                $instance = $this->get($name, $parameters);
+
+                /**
+                 * Save the instance in the first level shared
+                 */
+                $this->_sharedInstances[$name] = $instance;
+                $this->_freshInstance = true;
+            }
+
+            return $instance;
+        }
 
 
 		/**
 		 * Check whether the DI contains a service by a name
 		 *
 		 * @param string $name
+         *
 		 * @return boolean
 		 */
-		public function has($name){ }
+		public function has($name)
+        {
+            if (!is_string($name)) {
+                throw new \Phalcon\DI\Exception('The service name must be a string');
+            }
+
+            return array_key_exists($name, $this->_services);
+        }
 
 
 		/**
@@ -156,7 +306,10 @@ namespace Phalcon {
 		 *
 		 * @return boolean
 		 */
-		public function wasFreshInstance(){ }
+		public function wasFreshInstance()
+        {
+            return $this->_freshInstance;
+        }
 
 
 		/**
@@ -164,16 +317,23 @@ namespace Phalcon {
 		 *
 		 * @return \Phalcon\DI\Service[]
 		 */
-		public function getServices(){ }
+		public function getServices()
+        {
+            return $this->_services;
+        }
 
 
 		/**
 		 * Check if a service is registered using the array syntax
 		 *
 		 * @param string $alias
+         *
 		 * @return boolean
 		 */
-		public function offsetExists($alias){ }
+		public function offsetExists($alias)
+        {
+            return $this->has($alias);
+        }
 
 
 		/**
@@ -186,7 +346,10 @@ namespace Phalcon {
 		 * @param string $alias
 		 * @param mixed $definition
 		 */
-		public function offsetSet($alias, $definition){ }
+		public function offsetSet($alias, $definition)
+        {
+            $this->setShared($alias, $definition);
+        }
 
 
 		/**
@@ -197,9 +360,13 @@ namespace Phalcon {
 		 *</code>
 		 *
 		 * @param string $alias
+         *
 		 * @return mixed
 		 */
-		public function offsetGet($alias){ }
+		public function offsetGet($alias)
+        {
+            return $this->getShared($alias);
+        }
 
 
 		/**
@@ -207,7 +374,10 @@ namespace Phalcon {
 		 *
 		 * @param string $alias
 		 */
-		public function offsetUnset($alias){ }
+		public function offsetUnset($alias)
+        {
+            $this->remove($alias);
+        }
 
 
 		/**
@@ -215,9 +385,39 @@ namespace Phalcon {
 		 *
 		 * @param string $method
 		 * @param array $arguments
+         *
 		 * @return mixed
 		 */
-		public function __call($method, $arguments=null){ }
+		public function __call($method, $arguments = null)
+        {
+            /**
+             * If the magic method starts with 'get' we try to get a service with that name
+             */
+            if ('get' === substr($method, 0, 3)) {
+                $name = substr($method, 3);
+                $name = lcfirst($name);
+
+                if (array_key_exists($name, $this->_services)) {
+                    return $this->get($name, $arguments);
+                }
+            }
+
+            /**
+             * If the magic method starts with 'set' we try to set a service using that name
+             */
+            if ('set' === substr($method, 0, 3)) {
+                $name = substr($method, 3);
+                $name = lcfirst($name);
+
+                $handler = $arguments[0];
+
+                $this->set($name, $handler);
+
+                return null;
+            }
+
+            throw new \Phalcon\DI\Exception('Call to undefined method or service "' . $method . '"');
+        }
 
 
 		/**
@@ -225,7 +425,10 @@ namespace Phalcon {
 		 *
 		 * @param \Phalcon\DiInterface $dependencyInjector
 		 */
-		public static function setDefault($dependencyInjector){ }
+		public static function setDefault($dependencyInjector)
+        {
+            self::$_default = $dependencyInjector;
+        }
 
 
 		/**
@@ -233,13 +436,19 @@ namespace Phalcon {
 		 *
 		 * @return \Phalcon\DiInterface
 		 */
-		public static function getDefault(){ }
+		public static function getDefault()
+        {
+            return self::$_default;
+        }
 
 
 		/**
 		 * Resets the internal default DI
 		 */
-		public static function reset(){ }
+		public static function reset()
+        {
+            self::$_default = null;
+        }
 
 	}
 }
