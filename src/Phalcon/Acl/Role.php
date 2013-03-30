@@ -21,7 +21,18 @@ namespace Phalcon\Acl {
 		 * @param string $name
 		 * @param string $description
 		 */
-		public function __construct($name, $description=null){ }
+		public function __construct($name, $description = null)
+        {
+            if ('*' == $name) {
+                throw new \Phalcon\Acl\Exception('Role name cannot be "*"');
+            }
+
+            $this->_name = $name;
+
+            if (!is_null($description)) {
+                $this->_description = $description;
+            }
+        }
 
 
 		/**
@@ -29,7 +40,10 @@ namespace Phalcon\Acl {
 		 *
 		 * @return string
 		 */
-		public function getName(){ }
+		public function getName()
+        {
+            return $this->_name;
+        }
 
 
 		/**
@@ -37,7 +51,10 @@ namespace Phalcon\Acl {
 		 *
 		 * @return string
 		 */
-		public function getDescription(){ }
+		public function getDescription()
+        {
+            return $this->_description;
+        }
 
 
 		/**
@@ -45,7 +62,10 @@ namespace Phalcon\Acl {
 		 *
 		 * @return string
 		 */
-		public function __toString(){ }
+		public function __toString()
+        {
+            return $this->_name;
+        }
 
 	}
 }

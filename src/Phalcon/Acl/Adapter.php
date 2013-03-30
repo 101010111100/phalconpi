@@ -27,7 +27,10 @@ namespace Phalcon\Acl {
 		 *
 		 * @param \Phalcon\Events\ManagerInterface $eventsManager
 		 */
-		public function setEventsManager($eventsManager){ }
+		public function setEventsManager($eventsManager)
+        {
+            $this->_eventsManager = $eventsManager;
+        }
 
 
 		/**
@@ -35,7 +38,10 @@ namespace Phalcon\Acl {
 		 *
 		 * @return \Phalcon\Events\ManagerInterface
 		 */
-		public function getEventsManager(){ }
+		public function getEventsManager()
+        {
+            return $this->_eventsManager;
+        }
 
 
 		/**
@@ -43,7 +49,10 @@ namespace Phalcon\Acl {
 		 *
 		 * @param int $defaultAccess
 		 */
-		public function setDefaultAction($defaultAccess){ }
+		public function setDefaultAction($defaultAccess)
+        {
+            $this->_defaultAccess = $defaultAccess;
+        }
 
 
 		/**
@@ -51,7 +60,10 @@ namespace Phalcon\Acl {
 		 *
 		 * @return int
 		 */
-		public function getDefaultAction(){ }
+		public function getDefaultAction()
+        {
+            return $this->_defaultAccess;
+        }
 
 
 		/**
@@ -59,7 +71,10 @@ namespace Phalcon\Acl {
 		 *
 		 * @return string
 		 */
-		public function getActiveRole(){ }
+		public function getActiveRole()
+        {
+            return $this->_activeRole;
+        }
 
 
 		/**
@@ -67,7 +82,10 @@ namespace Phalcon\Acl {
 		 *
 		 * @return string
 		 */
-		public function getActiveResource(){ }
+		public function getActiveResource()
+        {
+            return $this->_activeResource;
+        }
 
 
 		/**
@@ -75,7 +93,10 @@ namespace Phalcon\Acl {
 		 *
 		 * @return string
 		 */
-		public function getActiveAccess(){ }
+		public function getActiveAccess()
+        {
+            return $this->_activeAccess;
+        }
 
 	}
 }
