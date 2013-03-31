@@ -2,7 +2,7 @@
 
 Phalcon PHP is a web framework delivered as a C extension providing high performance and lower resource consumption.
 
-Phalcon PI (Phalcon PHP Framework PHP Initiative) is a crazy port of Phalcon PHP Framework from C to PHP.
+Phalcon PI (Phalcon PHP Framework PHP Initiative) is a Phalcon PHP Framework C-to-PHP port.
 
 ## Why?
 
