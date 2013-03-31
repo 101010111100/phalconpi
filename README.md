@@ -48,7 +48,7 @@ Current version of Phalcon PI is an analogue of the Phalcon PHP Framework versio
 * [Website](http://phalconpi.com/)
 * [Twitter](http://docs.phalconphp.com/)
 
-### Phalcon
+### Phalcon PHP Framework
 * [Website](http://phalconphp.com/)
 * [Documentation](http://docs.phalconphp.com/)
 * [Support](http://phalconphp.com/support)
