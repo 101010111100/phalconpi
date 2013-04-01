@@ -22,7 +22,7 @@ Current version of Phalcon PI is an analogue of the Phalcon PHP Framework versio
 * [ ] Annotations (@suxxes)
 * [ ] Cache
 * [ ] CLI
-* [ ] Config
+* [x] Config (@suxxes)
 * [ ] Db
 * [x] DI (@suxxes)
 * [ ] Escaper
