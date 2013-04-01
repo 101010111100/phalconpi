@@ -35,7 +35,26 @@ namespace Phalcon {
 		 *
 		 * @param array $arrayConfig
 		 */
-		public function __construct($arrayConfig=null){ }
+		public function __construct($arrayConfig = null)
+        {
+            if ($arrayConfig && is_array($arrayConfig)) {
+                foreach ($arrayConfig as $key => $value) {
+                    if (is_array($value)) {
+                        if (!array_key_exists(0, $value)) {
+                            $this->$key = new \Phalcon\Config($value);
+                        } else {
+                            $this->$key = $value;
+                        }
+                    } else {
+                        $this->$key = $value;
+                    }
+                }
+            } else {
+                if (!is_null($arrayConfig)) {
+                    throw new \Phalcon\Config\Exception('The configuration must be an Array');
+                }
+            }
+        }
 
 
 		/**
@@ -46,9 +65,13 @@ namespace Phalcon {
 		 *</code>
 		 *
 		 * @param string $index
+         *
 		 * @return boolean
 		 */
-		public function offsetExists($index){ }
+		public function offsetExists($index)
+        {
+            return array_key_exists($index, get_object_vars($this));
+        }
 
 
 		/**
@@ -61,9 +84,21 @@ namespace Phalcon {
 		 *
 		 * @param string $index
 		 * @param mixed $defaultValue
+         *
 		 * @return mixed
 		 */
-		public function get($index, $defaultValue=null){ }
+		public function get($index, $defaultValue = null)
+        {
+            if ($this->offsetExists($index)) {
+                $value = $this->$index;
+
+                if ($value) {
+                    return $value;
+                }
+            }
+
+            return $defaultValue;
+        }
 
 
 		/**
@@ -74,9 +109,13 @@ namespace Phalcon {
 		 *</code>
 		 *
 		 * @param string $index
+         *
 		 * @return string
 		 */
-		public function offsetGet($index){ }
+		public function offsetGet($index)
+        {
+            return $this->$index;
+        }
 
 
 		/**
@@ -89,7 +128,20 @@ namespace Phalcon {
 		 * @param string $index
 		 * @param mixed $value
 		 */
-		public function offsetSet($index, $value){ }
+		public function offsetSet($index, $value)
+        {
+            if (!is_string($index)) {
+                throw new \Phalcon\Config\Exception('Index key must be string');
+            }
+
+            if (is_array($value)) {
+                $arrayValue = new \Phalcon\Config($value);
+            } else {
+                $arrayValue = $value;
+            }
+
+            $this->$index = $arrayValue;
+        }
 
 
 		/**
@@ -101,7 +153,10 @@ namespace Phalcon {
 		 *
 		 * @param string $index
 		 */
-		public function offsetUnset($index){ }
+		public function offsetUnset($index)
+        {
+            return true;
+        }
 
 
 		/**
@@ -114,7 +169,34 @@ namespace Phalcon {
 		 *
 		 * @param \Phalcon\Config $config
 		 */
-		public function merge($config){ }
+		public function merge($config)
+        {
+            if (!is_object($config)) {
+                throw new \Phalcon\Config\Exception('Configuration must be an Object');
+            }
+
+            $arrayConfig = get_object_vars($config);
+
+            if ($arrayConfig && is_array($arrayConfig)) {
+                foreach ($arrayConfig as $key => $value) {
+                    if (is_object($value)) {
+                        if (array_key_exists($key, $this)) {
+                            $activeValue = $this->$key;
+
+                            if (is_object($activeValue)) {
+                                if (method_exists($activeValue, 'merge')) {
+                                    $activeValue->merge($value);
+
+                                    continue;
+                                }
+                            }
+                        }
+                    }
+
+                    $this->$key = $value;
+                }
+            }
+        }
 
 
 		/**
@@ -126,16 +208,35 @@ namespace Phalcon {
 		 *
 		 * @return array
 		 */
-		public function toArray(){ }
+		public function toArray()
+        {
+            $arrayConfig = get_object_vars($this);
+
+            if ($arrayConfig && is_array($arrayConfig)) {
+                foreach ($arrayConfig as $key => $value) {
+                    if (is_object($value)) {
+                        if (method_exists($value, 'toArray')) {
+                            $arrayConfig[$key] = $value->toArray();
+                        }
+                    }
+                }
+            }
+
+            return $arrayConfig;
+        }
 
 
 		/**
 		 * Restores the state of a \Phalcon\Config object
 		 *
 		 * @param array $data
+         *
 		 * @return \Phalcon\Config
 		 */
-		public static function __set_state($data){ }
+		public static function __set_state($data)
+        {
+            return new \Phalcon\Config($data);
+        }
 
 	}
 }

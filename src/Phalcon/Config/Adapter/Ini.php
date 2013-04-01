@@ -40,7 +40,35 @@ namespace Phalcon\Config\Adapter {
 		 *
 		 * @param string $filePath
 		 */
-		public function __construct($filePath){ }
+		public function __construct($filePath)
+        {
+            $config = array();
+            $iniConfig = parse_ini_file($filePath);
+
+            if (!$iniConfig) {
+                $basePath = basename($filePath);
+
+                throw new \Phalcon\Config\Exception('Configuration file "' . $basePath . '" can\'t be loaded');
+            }
+
+            if ($iniConfig && is_array($iniConfig)) {
+                foreach ($iniConfig as $section => $directives) {
+                    if ($directives && is_array($directives)) {
+                        foreach ($directives as $key => $value) {
+                            if (strpos($key, '.')) {
+                                $directiveParts = explode('.', $key);
+
+                                $config[$section][$directiveParts[0]][$directiveParts[1]] = $value;
+                            } else {
+                                $config[$section][$key] = $value;
+                            }
+                        }
+                    }
+                }
+            }
+
+            parent::__construct($config);
+        }
 
 	}
 }
