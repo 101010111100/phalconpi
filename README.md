@@ -18,14 +18,14 @@ Phalcon PI will allow usage of the single framework in highload projects with De
 Current version of Phalcon PI is an analogue of the Phalcon PHP Framework version 1.0.1.
 
 ## Components & Status
-* [x] Acl (@suxxes)
-* [ ] Annotations (@suxxes)
+* [x] Acl ([@suxxes](http://github.com/suxxes))
+* [ ] Annotations ([@suxxes](http://github.com/suxxes))
 * [ ] Cache
 * [ ] CLI
-* [x] Config (@suxxes)
+* [x] Config ([@suxxes](http://github.com/suxxes))
 * [ ] Db
-* [x] DI (@suxxes)
-* [ ] Escaper
+* [x] DI ([@suxxes](http://github.com/suxxes))
+* [ ] Escaper ([@suxxes](http://github.com/suxxes))
 * [ ] Events
 * [ ] Filter
 * [ ] Flash
