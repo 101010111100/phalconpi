@@ -16,9 +16,9 @@ namespace Phalcon\Events {
 
 		protected $_data;
 
-		protected $_stopped;
+		protected $_stopped = false;
 
-		protected $_cancelable;
+		protected $_cancelable = true;
 
 		/**
 		 * \Phalcon\Events\Event constructor
@@ -28,7 +28,23 @@ namespace Phalcon\Events {
 		 * @param mixed $data
 		 * @param boolean $cancelable
 		 */
-		public function __construct($type, $source, $data=null, $cancelable=null){ }
+		public function __construct($type, $source, $data = null, $cancelable = null)
+        {
+            if (is_null($cancelable)) {
+                $cancelable = true;
+            }
+
+            $this->_type = $type;
+            $this->_source = $source;
+
+            if (!is_null($data)) {
+                $this->_data = $data;
+            }
+
+            if (true !== $cancelable) {
+                $this->_cancelable = $cancelable;
+            }
+        }
 
 
 		/**
@@ -36,7 +52,10 @@ namespace Phalcon\Events {
 		 *
 		 * @param string $eventType
 		 */
-		public function setType($eventType){ }
+		public function setType($eventType)
+        {
+            $this->_type = $eventType;
+        }
 
 
 		/**
@@ -44,7 +63,10 @@ namespace Phalcon\Events {
 		 *
 		 * @return string
 		 */
-		public function getType(){ }
+		public function getType()
+        {
+            return $this->_type;
+        }
 
 
 		/**
@@ -52,7 +74,10 @@ namespace Phalcon\Events {
 		 *
 		 * @return object
 		 */
-		public function getSource(){ }
+		public function getSource()
+        {
+            return $this->_source;
+        }
 
 
 		/**
@@ -60,7 +85,10 @@ namespace Phalcon\Events {
 		 *
 		 * @param string $data
 		 */
-		public function setData($data){ }
+		public function setData($data)
+        {
+            $this->_data = $data;
+        }
 
 
 		/**
@@ -68,7 +96,10 @@ namespace Phalcon\Events {
 		 *
 		 * @return mixed
 		 */
-		public function getData(){ }
+		public function getData()
+        {
+            return $this->_data;
+        }
 
 
 		/**
@@ -76,7 +107,10 @@ namespace Phalcon\Events {
 		 *
 		 * @param boolean $cancelable
 		 */
-		public function setCancelable($cancelable){ }
+		public function setCancelable($cancelable)
+        {
+            $this->_cancelable = $cancelable;
+        }
 
 
 		/**
@@ -84,19 +118,32 @@ namespace Phalcon\Events {
 		 *
 		 * @return boolean
 		 */
-		public function getCancelable(){ }
+		public function getCancelable()
+        {
+            return $this->_cancelable;
+        }
 
 
 		/**
 		 * Stops the event preventing propagation
 		 */
-		public function stop(){ }
+		public function stop()
+        {
+            if (true === $this->_cancelable) {
+                $this->_stopped = true;
+            } else {
+                throw new \Phalcon\Events\Exception('Trying to cancel a non-cancelable event');
+            }
+        }
 
 
 		/**
 		 * Check whether the event is currently stopped
 		 */
-		public function isStopped(){ }
+		public function isStopped()
+        {
+            return $this->_stopped;
+        }
 
 	}
 }

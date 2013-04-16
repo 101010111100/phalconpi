@@ -26,7 +26,7 @@ Current version of Phalcon PI is an analogue of the Phalcon PHP Framework versio
 * [ ] Db
 * [x] DI ([@suxxes](http://github.com/suxxes))
 * [ ] Escaper ([@suxxes](http://github.com/suxxes))
-* [ ] Events
+* [x] Events ([@suxxes](http://github.com/suxxes))
 * [ ] Filter
 * [ ] Flash
 * [ ] Forms
