@@ -41,7 +41,11 @@ namespace Phalcon\CLI {
 		/**
 		 * \Phalcon\CLI\Router constructor
 		 */
-		public function __construct(){ }
+		public function __construct()
+        {
+            $this->_params = array();
+            $this->_defaultParams = array();
+        }
 
 
 		/**
@@ -49,7 +53,10 @@ namespace Phalcon\CLI {
 		 *
 		 * @param \Phalcon\DiInterface $dependencyInjector
 		 */
-		public function setDI($dependencyInjector){ }
+		public function setDI($dependencyInjector)
+        {
+            $this->_dependencyInjector = $dependencyInjector;
+        }
 
 
 		/**
@@ -57,7 +64,10 @@ namespace Phalcon\CLI {
 		 *
 		 * @return \Phalcon\DiInterface
 		 */
-		public function getDI(){ }
+		public function getDI()
+        {
+            return $this->_dependencyInjector;
+        }
 
 
 		/**
@@ -65,7 +75,10 @@ namespace Phalcon\CLI {
 		 *
 		 * @param string $moduleName
 		 */
-		public function setDefaultModule($moduleName){ }
+		public function setDefaultModule($moduleName)
+        {
+            $this->_defaultModule = $moduleName;
+        }
 
 
 		/**
@@ -73,7 +86,10 @@ namespace Phalcon\CLI {
 		 *
 		 * @param string $taskName
 		 */
-		public function setDefaultTask($taskName){ }
+		public function setDefaultTask($taskName)
+        {
+            $this->_defaultTask = $taskName;
+        }
 
 
 		/**
@@ -81,7 +97,10 @@ namespace Phalcon\CLI {
 		 *
 		 * @param string $actionName
 		 */
-		public function setDefaultAction($actionName){ }
+		public function setDefaultAction($actionName)
+        {
+            $this->_defaultAction = $actionName;
+        }
 
 
 		/**
@@ -89,7 +108,81 @@ namespace Phalcon\CLI {
 		 *
 		 * @param array $arguments
 		 */
-		public function handle($arguments=null){ }
+		public function handle($arguments = null)
+        {
+            if (is_null($arguments)) {
+                $arguments = array();
+            }
+
+            if (!is_array($arguments)) {
+                throw new \Phalcon\CLI\Router\Exception('Arguments must be an Array');
+            }
+
+            $argumentsCount = count($arguments);
+
+            $params = array();
+
+            if ($argumentsCount > 3) {
+                // script, task, action, params.....
+                $taskNameTemp = $arguments[1];
+                $actionName = $arguments[2];
+
+                // process params
+                for ($i = 3; $i < $argumentsCount; $i++) {
+                    $params[] = $arguments[$i];
+                }
+            } else {
+                if ($argumentsCount > 2) {
+                    // script, task, action
+                    $taskNameTemp = $arguments[1];
+                    $actionName = $arguments[2];
+                } else if ($argumentsCount > 1) {
+                    // script, task
+                    $taskNameTemp = $arguments[1];
+                }
+            }
+
+            // if task_name settings, parse task_name for module_name
+            if (isset($taskNameTemp)) {
+                $taskNameParts = explode(':', $taskNameTemp);
+
+                $status = count($taskNameParts);
+
+                if (2 === $status) {
+                    $moduleName = $taskNameParts[0];
+                    $taskName = $taskNameParts[1];
+                } else {
+                    $taskName = $taskNameParts[0];
+                }
+            }
+
+            // update properties
+            if (isset($moduleName)) {
+                $this->_module = $moduleName;
+            } else {
+                if (!is_null($this->_defaultModule)) {
+                    $this->_module = $this->_defaultModule;
+                }
+            }
+
+            if (isset($taskName)) {
+                $this->_task = $taskName;
+            } else {
+                if (!is_null($this->_defaultTask)) {
+                    $this->_task = $this->_defaultTask;
+                }
+            }
+
+            if (isset($actionName)) {
+                $this->_action = $actionName;
+            } else {
+                if (!is_null($this->_defaultAction)) {
+                    $this->_action = $this->_defaultAction;
+                }
+            }
+
+            $this->_params = $params;
+        }
 
 
 		/**
@@ -97,7 +190,10 @@ namespace Phalcon\CLI {
 		 *
 		 * @return string
 		 */
-		public function getModuleName(){ }
+		public function getModuleName()
+        {
+            return $this->_module;
+        }
 
 
 		/**
@@ -105,7 +201,10 @@ namespace Phalcon\CLI {
 		 *
 		 * @return string
 		 */
-		public function getTaskName(){ }
+		public function getTaskName()
+        {
+            return $this->_task;
+        }
 
 
 		/**
@@ -113,7 +212,10 @@ namespace Phalcon\CLI {
 		 *
 		 * @return string
 		 */
-		public function getActionName(){ }
+		public function getActionName()
+        {
+            return $this->_action;
+        }
 
 
 		/**
@@ -121,7 +223,10 @@ namespace Phalcon\CLI {
 		 *
 		 * @return array
 		 */
-		public function getParams(){ }
+		public function getParams()
+        {
+            return $this->_params;
+        }
 
 	}
 }

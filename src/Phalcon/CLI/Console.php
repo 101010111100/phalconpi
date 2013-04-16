@@ -23,7 +23,14 @@ namespace Phalcon\CLI {
 		 *
 		 * @param \Phalcon\DiInterface $dependencyInjector
 		 */
-		public function setDI($dependencyInjector){ }
+		public function setDI($dependencyInjector)
+        {
+            if (!is_object($dependencyInjector)) {
+                throw new \Phalcon\CLI\Console\Exception('Dependency Injector is invalid');
+            }
+
+            $this->_dependencyInjector = $dependencyInjector;
+        }
 
 
 		/**
@@ -31,7 +38,10 @@ namespace Phalcon\CLI {
 		 *
 		 * @return \Phalcon\DiInterface
 		 */
-		public function getDI(){ }
+		public function getDI()
+        {
+            return $this->_dependencyInjector;
+        }
 
 
 		/**
@@ -39,7 +49,10 @@ namespace Phalcon\CLI {
 		 *
 		 * @param \Phalcon\Events\ManagerInterface $eventsManager
 		 */
-		public function setEventsManager($eventsManager){ }
+		public function setEventsManager($eventsManager)
+        {
+            $this->_eventsManager = $eventsManager;
+        }
 
 
 		/**
@@ -47,7 +60,10 @@ namespace Phalcon\CLI {
 		 *
 		 * @return \Phalcon\Events\ManagerInterface
 		 */
-		public function getEventsManager(){ }
+		public function getEventsManager()
+        {
+            return $this->_eventsManager;
+        }
 
 
 		/**
@@ -68,7 +84,14 @@ namespace Phalcon\CLI {
 		 *
 		 * @param array $modules
 		 */
-		public function registerModules($modules){ }
+		public function registerModules($modules)
+        {
+            if (!is_array($modules)) {
+                throw new \Phalcon\CLI\Console\Exception('Modules must be an Array');
+            }
+
+            $this->_modules = $modules;
+        }
 
 
 		/**
@@ -85,7 +108,14 @@ namespace Phalcon\CLI {
 		 *
 		 * @param array $modules
 		 */
-		public function addModules($modules){ }
+		public function addModules($modules)
+        {
+            if (!is_array($modules)) {
+                throw new \Phalcon\CLI\Console\Exception('Modules must be an Array');
+            }
+
+            $this->_modules = array_merge($modules, $this->_modules);
+        }
 
 
 		/**
@@ -93,16 +123,109 @@ namespace Phalcon\CLI {
 		 *
 		 * @return array
 		 */
-		public function getModules(){ }
+		public function getModules()
+        {
+            return $this->_modules;
+        }
 
 
 		/**
 		 * Handle the whole command-line tasks
 		 *
 		 * @param array $arguments
+         *
 		 * @return mixed
 		 */
-		public function handle($arguments=null){ }
+		public function handle($arguments = null)
+        {
+            if (is_null($arguments)) {
+                $arguments = array();
+            }
+
+            if (!is_object($this->_dependencyInjector)) {
+                throw new \Phalcon\CLI\Console\Exception('A dependency injection object is required to access internal services');
+            }
+
+            $router = $this->_dependencyInjector->getShared('router');
+            $router->handle($arguments);
+
+            $moduleName = $router->getModuleName();
+
+            if ($moduleName) {
+                if (is_object($this->_eventsManager)) {
+                    $status = $this->_eventsManager->fire('console:beforeStartModule', $this, $moduleName);
+
+                    if (false === $status) {
+                        return false;
+                    }
+                }
+
+                if (!array_key_exists($moduleName, $this->_modules)) {
+                    throw new \Phalcon\CLI\Console\Exception('Module "' . $moduleName . '" isn\'t registered in the console container');
+                }
+
+                $module = $this->_modules[$moduleName];
+
+                if (!is_array($module)) {
+                    throw new \Phalcon\CLI\Console\Exception('Invalid module definition path');
+                }
+
+                if (array_key_exists('path', $module)) {
+                    if (is_file($module['path']) && is_readable($module['path'])) {
+                        require $module['path'];
+                    } else {
+                        throw new \Phalcon\CLI\Console\Exception('Module definition path "' . $module['path'] . '" doesn\'t exist');
+                    }
+                }
+
+                if (array_key_exists('className', $module)) {
+                    $className = $module['className'];
+                } else {
+                    $className = 'Module';
+                }
+
+                $moduleObject = $this->_dependencyInjector->get($className);
+                $moduleObject->registerAutoloaders();
+                $moduleObject->registerServices($this->_dependencyInjector);
+
+                if (is_object($this->_eventsManager)) {
+                    $status = $this->_eventsManager->fire('console:afterStartModule', $this, $moduleName);
+
+                    if (false === $status) {
+                        return false;
+                    }
+                }
+            }
+
+            $taskName = $router->getTaskName();
+            $actionName = $router->getActionName();
+            $params = $router->getParams();
+
+            $dispatcher = $this->_dependencyInjector->getShared('dispatcher');
+            $dispatcher->setTaskName($taskName);
+            $dispatcher->setActionName($actionName);
+            $dispatcher->setParams($params);
+
+            if (is_object($this->_eventsManager)) {
+                $status = $this->_eventsManager->fire('console:beforeHandleTask', $this, $dispatcher);
+
+                if (false === $status) {
+                    return false;
+                }
+            }
+
+            $task = $dispatcher->dispatch();
+
+            if (is_object($this->_eventsManager)) {
+                $status = $this->_eventsManager->fire('console:afterHandleTask', $this, $task);
+
+                if (false === $status) {
+                    return false;
+                }
+            }
+
+            return $task;
+        }
 
 	}
 }

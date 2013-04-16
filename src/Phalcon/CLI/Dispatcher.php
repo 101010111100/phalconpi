@@ -51,7 +51,10 @@ namespace Phalcon\CLI {
 		 *
 		 * @param string $taskSuffix
 		 */
-		public function setTaskSuffix($taskSuffix){ }
+		public function setTaskSuffix($taskSuffix)
+        {
+            $this->_handlerSuffix = $taskSuffix;
+        }
 
 
 		/**
@@ -59,7 +62,10 @@ namespace Phalcon\CLI {
 		 *
 		 * @param string $taskName
 		 */
-		public function setDefaultTask($taskName){ }
+		public function setDefaultTask($taskName)
+        {
+            $this->_defaultHandler = $taskName;
+        }
 
 
 		/**
@@ -67,7 +73,10 @@ namespace Phalcon\CLI {
 		 *
 		 * @param string $taskName
 		 */
-		public function setTaskName($taskName){ }
+		public function setTaskName($taskName)
+        {
+            $this->_handlerName = $taskName;
+        }
 
 
 		/**
@@ -75,7 +84,10 @@ namespace Phalcon\CLI {
 		 *
 		 * @return string
 		 */
-		public function getTaskName(){ }
+		public function getTaskName()
+        {
+            return $this->_handlerName;
+        }
 
 
 		/**
@@ -84,7 +96,24 @@ namespace Phalcon\CLI {
 		 * @param string $message
 		 * @param int $exceptionCode
 		 */
-		protected function _throwDispatchException(){ }
+		protected function _throwDispatchException($message, $exceptionCode)
+        {
+            if (!$exceptionCode) {
+                $exceptionCode = 0;
+            }
+
+            $exception = new \Phalcon\CLI\Dispatcher\Exception($message, $exceptionCode);
+
+            if (is_object($this->_eventsManager)) {
+                $status = $this->_eventsManager->fire('dispatch:beforeException', $this, $exception);
+
+                if (false === $status) {
+                    return false;
+                }
+            }
+
+            throw $exception;
+        }
 
 
 		/**
@@ -92,7 +121,10 @@ namespace Phalcon\CLI {
 		 *
 		 * @return \Phalcon\CLI\Task
 		 */
-		public function getLastTask(){ }
+		public function getLastTask()
+        {
+            return $this->_lastHandler;
+        }
 
 
 		/**
@@ -100,7 +132,10 @@ namespace Phalcon\CLI {
 		 *
 		 * @return \Phalcon\CLI\Task
 		 */
-		public function getActiveTask(){ }
+		public function getActiveTask()
+        {
+            return $this->_activeHandler;
+        }
 
 	}
 }

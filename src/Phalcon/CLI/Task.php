@@ -36,7 +36,10 @@ namespace Phalcon\CLI {
 		/**
 		 * \Phalcon\CLI\Task constructor
 		 */
-		final public function __construct(){ }
+		final public function __construct()
+        {
+
+        }
 
 	}
 }
