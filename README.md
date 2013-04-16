@@ -21,7 +21,7 @@ Current version of Phalcon PI is an analogue of the Phalcon PHP Framework versio
 * [x] Acl ([@suxxes](http://github.com/suxxes))
 * [ ] Annotations ([@suxxes](http://github.com/suxxes))
 * [ ] Cache
-* [ ] CLI
+* [x] CLI ([@suxxes](http://github.com/suxxes))
 * [x] Config ([@suxxes](http://github.com/suxxes))
 * [ ] Db
 * [x] DI ([@suxxes](http://github.com/suxxes))
