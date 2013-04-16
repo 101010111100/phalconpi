@@ -12,9 +12,9 @@ namespace Phalcon\Acl {
 
 		protected $_eventsManager;
 
-		protected $_defaultAccess;
+		protected $_defaultAccess = 1;
 
-		protected $_accessGranted;
+		protected $_accessGranted = false;
 
 		protected $_activeRole;
 

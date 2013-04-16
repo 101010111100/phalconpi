@@ -40,11 +40,11 @@ namespace Phalcon\CLI {
 
 		const EXCEPTION_ACTION_NOT_FOUND = 5;
 
-        protected $_handlerSuffix;
+        protected $_handlerSuffix = 'Task';
 
-        protected $_defaultHandler;
+        protected $_defaultHandler = 'main';
 
-		protected $_defaultAction;
+		protected $_defaultAction = 'main';
 
 		/**
 		 * Sets the default task suffix
