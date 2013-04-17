@@ -17,43 +17,75 @@ namespace Phalcon {
 
 		protected $_cssClasses;
 
-		protected $_implicitFlush;
+		protected $_implicitFlush = true;
 
-		protected $_automaticHtml;
+		protected $_automaticHtml = true;
 
 		/**
 		 * \Phalcon\Flash constructor
 		 *
 		 * @param array $cssClasses
 		 */
-		public function __construct($cssClasses=null){ }
+		public function __construct($cssClasses = null)
+        {
+            if (!is_array($cssClasses)) {
+                $cssClasses['error'] = 'errorMessage';
+                $cssClasses['notice'] = 'noticeMessage';
+                $cssClasses['success'] = 'successMessage';
+                $cssClasses['warning'] = 'warningMessage';
+            }
+
+            $this->_cssClasses = $cssClasses;
+        }
 
 
 		/**
 		 * Set the if the output must be implictly flushed to the output or returned as string
 		 *
 		 * @param boolean $implicitFlush
+         *
 		 * @return \Phalcon\FlashInterface
 		 */
-		public function setImplicitFlush($implicitFlush){ }
+		public function setImplicitFlush($implicitFlush)
+        {
+            $this->_implicitFlush = $implicitFlush;
+
+            return $this;
+        }
 
 
 		/**
 		 * Set the if the output must be implictly formatted with HTML
 		 *
 		 * @param boolean $automaticHtml
+         *
 		 * @return \Phalcon\FlashInterface
 		 */
-		public function setAutomaticHtml($automaticHtml){ }
+		public function setAutomaticHtml($automaticHtml)
+        {
+            $this->_automaticHtml = $automaticHtml;
+
+            return $this;
+        }
 
 
 		/**
 		 * Set an array with CSS classes to format the messages
 		 *
 		 * @param array $cssClasses
+         *
 		 * @return \Phalcon\FlashInterface
 		 */
-		public function setCssClasses($cssClasses){ }
+		public function setCssClasses($cssClasses)
+        {
+            if (!is_array($cssClasses)) {
+                throw new \Phalcon\Flash\Exception('CSS classes must be an Array');
+            }
+
+            $this->_cssClasses = $cssClasses;
+
+            return $this;
+        }
 
 
 		/**
@@ -64,9 +96,13 @@ namespace Phalcon {
 		 *</code>
 		 *
 		 * @param string $message
+         *
 		 * @return string
 		 */
-		public function error($message){ }
+		public function error($message)
+        {
+            return $this->message('error', $message);
+        }
 
 
 		/**
@@ -77,9 +113,13 @@ namespace Phalcon {
 		 *</code>
 		 *
 		 * @param string $message
+         *
 		 * @return string
 		 */
-		public function notice($message){ }
+		public function notice($message)
+        {
+            return $this->message('notice', $message);
+        }
 
 
 		/**
@@ -90,9 +130,13 @@ namespace Phalcon {
 		 *</code>
 		 *
 		 * @param string $message
+         *
 		 * @return string
 		 */
-		public function success($message){ }
+		public function success($message)
+        {
+            return $this->message('success', $message);
+        }
 
 
 		/**
@@ -103,9 +147,13 @@ namespace Phalcon {
 		 *</code>
 		 *
 		 * @param string $message
+         *
 		 * @return string
 		 */
-		public function warning($message){ }
+		public function warning($message)
+        {
+            return $this->message('warning', $message);
+        }
 
 
 		/**
@@ -118,7 +166,70 @@ namespace Phalcon {
 		 * @param string $type
 		 * @param string $message
 		 */
-		public function outputMessage($type, $message){ }
+		public function outputMessage($type, $message)
+        {
+            $cssClasses = '';
+
+            if ($this->_automaticHtml) {
+                if (array_key_exists($type, $this->_cssClasses)) {
+                    $typeClasses = $this->_cssClasses[$type];
+
+                    if (is_array($typeClasses)) {
+                        $joinedClasses = implode(' ', $typeClasses);
+                        $cssClasses = ' class="' . $joinedClasses . '"';
+                    } else {
+                        $cssClasses = ' class="' . $typeClasses . '"';
+                    }
+                }
+            }
+
+            if (is_array($message)) {
+                /**
+                 * We create the message with implicit flush or other
+                 */
+                if (!$this->_implicitFlush) {
+                    $content = '';
+                }
+
+                if ($message) {
+                    foreach ($message as $msg) {
+                        if ($this->_automaticHtml) {
+                            $htmlMessage = '<div' . $cssClasses . '>' . $msg . '</div>' . PHP_EOL;
+                        } else {
+                            $htmlMessage = $msg;
+                        }
+
+                        if ($this->_implicitFlush) {
+                            print $htmlMessage;
+                        } else {
+                            $content .= $htmlMessage;
+                        }
+                    }
+                }
+
+                /**
+                 * We return the message as string if the implicit_flush is turned off
+                 */
+                if (!$this->_implicitFlush) {
+                    return $content;
+                }
+            } else {
+                /**
+                 * We create the applying formatting or not
+                 */
+                if ($this->_automaticHtml) {
+                    $htmlMessage = '<div' . $cssClasses . '>' . $message . '</div>' . PHP_EOL;
+                } else {
+                    $htmlMessage = $message;
+                }
+
+                if ($this->_implicitFlush) {
+                    print $htmlMessage;
+                } else {
+                    return $htmlMessage;
+                }
+            }
+        }
 
 	}
 }

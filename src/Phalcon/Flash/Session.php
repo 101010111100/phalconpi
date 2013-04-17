@@ -17,7 +17,10 @@ namespace Phalcon\Flash {
 		 *
 		 * @param \Phalcon\DiInterface $dependencyInjector
 		 */
-		public function setDI($dependencyInjector){ }
+		public function setDI($dependencyInjector)
+        {
+            $this->_dependencyInjector = $dependencyInjector;
+        }
 
 
 		/**
@@ -25,16 +28,35 @@ namespace Phalcon\Flash {
 		 *
 		 * @return \Phalcon\DiInterface
 		 */
-		public function getDI(){ }
+		public function getDI()
+        {
+            return $this->_dependencyInjector;
+        }
 
 
 		/**
 		 * Returns the messages stored in session
 		 *
 		 * @param boolean $remove
+         *
 		 * @return array
 		 */
-		protected function _getSessionMessages(){ }
+		protected function _getSessionMessages($remove)
+        {
+            if (!is_object($this->_dependencyInjector)) {
+                throw new \Phalcon\Flash\Exception('A dependency injection container is required to access the "session" service');
+            }
+
+            $session = $this->_dependencyInjector->getShared('session');
+
+            $messages = $session->get('_flashMessages');
+
+            if (true === $remove) {
+                $session->remove('_flashMessages');
+            }
+
+            return $messages;
+        }
 
 
 		/**
@@ -42,7 +64,16 @@ namespace Phalcon\Flash {
 		 *
 		 * @param array $messages
 		 */
-		protected function _setSessionMessages(){ }
+		protected function _setSessionMessages($messages)
+        {
+            if (!is_object($this->_dependencyInjector)) {
+                throw new \Phalcon\Flash\Exception('A dependency injection container is required to access the "session" service');
+            }
+
+            $session = $this->_dependencyInjector->getShared('session');
+
+            return $session->set('_flashMessages', $messages);
+        }
 
 
 		/**
@@ -51,7 +82,22 @@ namespace Phalcon\Flash {
 		 * @param string $type
 		 * @param string $message
 		 */
-		public function message($type, $message){ }
+		public function message($type, $message)
+        {
+            $messages = $this->_getSessionMessages(false);
+
+            if (!is_array($messages)) {
+                $messages = array();
+            }
+
+            if (!array_key_exists($type, $messages)) {
+                $messages[$type] = array();
+            }
+
+            $messages[$type][] = $message;
+
+            $this->_setSessionMessages($messages);
+        }
 
 
 		/**
@@ -59,9 +105,29 @@ namespace Phalcon\Flash {
 		 *
 		 * @param string $type
 		 * @param boolean $remove
+         *
 		 * @return array
 		 */
-		public function getMessages($type=null, $remove=null){ }
+		public function getMessages($type = null, $remove = null)
+        {
+            if (is_null($remove)) {
+                $remove = true;
+            }
+
+            $messages = $this->_getSessionMessages($remove);
+
+            if (is_array($messages)) {
+                if (is_string($type)) {
+                    if (array_key_exists($type, $messages)) {
+                        return $messages[$type];
+                    }
+                }
+
+                return $messages;
+            }
+
+            return array();
+        }
 
 
 		/**
@@ -70,7 +136,20 @@ namespace Phalcon\Flash {
 		 * @param string $type
 		 * @param boolean $remove
 		 */
-		public function output($remove=null){ }
+		public function output($remove = null)
+        {
+            if (is_null($remove)) {
+                $remove = true;
+            }
+
+            $messages = $this->_getSessionMessages($remove);
+
+            if ($messages && is_array($messages)) {
+                foreach ($messages as $type => $message) {
+                    $this->outputMessage($type, $message);
+                }
+            }
+        }
 
 	}
 }
