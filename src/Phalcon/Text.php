@@ -28,9 +28,39 @@ namespace Phalcon {
 		 *</code>
 		 *
 		 * @param string $str
+         *
 		 * @return string
 		 */
-		public static function camelize($str){ }
+		public static function camelize($str)
+        {
+            if (!is_string($str)) {
+                throw new \Exception('Invalid arguments supplied for Text::camelize()');
+            }
+
+            $str = trim($str);
+            $str = preg_replace('@[_-]+@', '_', $str);
+            $str = str_replace(' ', '_', $str);
+
+            if (function_exists('mb_strlen')) {
+                $length = mb_strlen($str);
+            } else {
+                $length = strlen($str);
+            }
+
+            $camelized = '';
+
+            for ($i = 0; $i < $length; $i++) {
+                if ('_' == $str[$i] && $i + 1 < $length) {
+                    $camelized .= \Phalcon\Text::upper($str[++$i]);
+                } else {
+                    $camelized .= $str[$i];
+                }
+            }
+
+            $camelized = ucfirst($camelized);
+
+            return trim($camelized, ' _');
+        }
 
 
 		/**
@@ -43,7 +73,28 @@ namespace Phalcon {
 		 * @param string $str
 		 * @return string
 		 */
-		public static function uncamelize($str){ }
+		public static function uncamelize($str)
+        {
+            $uncamelized = '';
+
+            if (function_exists('mb_strlen')) {
+                $length = mb_strlen($str);
+            } else {
+                $length = strlen($str);
+            }
+
+            for ($i = 0; $i < $length; $i++) {
+                $upper = \Phalcon\Text::upper($str[$i]);
+
+                if (ctype_alpha($str[$i]) && $upper === $str[$i]) {
+                    $uncamelized .= '_' . strtolower($str[$i]);
+                } else {
+                    $uncamelized .= $str[$i];
+                }
+            }
+
+            return trim($uncamelized, ' _');
+        }
 
 
 		/**
@@ -56,9 +107,32 @@ namespace Phalcon {
 		 *
 		 * @param string $str
 		 * @param string $separator
+         *
 		 * @return string
 		 */
-		public static function increment($str, $separator=null){ }
+		public static function increment($str, $separator = null)
+        {
+            if (is_null($separator)) {
+                $separator = '_';
+            }
+
+            $parts = explode($separator, $str);
+            $incrementable = end($parts);
+
+            if (is_numeric($incrementable)) {
+                $number = $incrementable + 1;
+
+                array_pop($parts);
+            } else {
+                $number = 1;
+            }
+
+            $parts[] = $number;
+
+            $incremented = implode('_', $parts);
+
+            return $incremented;
+        }
 
 
 		/**
@@ -70,9 +144,51 @@ namespace Phalcon {
 		 *
 		 * @param int $type
 		 * @param int $length
+         *
 		 * @return string
 		 */
-		public static function random($type, $length=null){ }
+		public static function random($type, $length = null)
+        {
+            if (is_null($length)) {
+                $length = 8;
+            }
+
+            $numeric = range(0, 9);
+            $hexdec = array_merge($numeric, range('a', 'f'));
+            $lowerAlpha = range('a', 'z');
+            $upperAlpha = range('A', 'Z');
+            $nozero = range(1, 9);
+            $alpha = array_merge($lowerAlpha, $upperAlpha);
+            $alphaNum = array_merge($numeric, $alpha);
+
+            $randomStr = '';
+
+            for ($i = 0; $i < $length; $i++) {
+                switch ($type) {
+                    case self::RANDOM_ALNUM:
+                        $randomStr .= $alphaNum[array_rand($alphaNum)];
+                    break;
+
+                    case self::RANDOM_ALPHA:
+                        $randomStr .= $alpha[array_rand($alpha)];
+                    break;
+
+                    case self::RANDOM_HEXDEC:
+                        $randomStr .= $hexdec[array_rand($hexdec)];
+                    break;
+
+                    case self::RANDOM_NUMERIC:
+                        $randomStr .= $numeric[array_rand($numeric)];
+                    break;
+
+                    case self::RANDOM_NOZERO:
+                        $randomStr .= $nozero[array_rand($nozero)];
+                    break;
+                }
+            }
+
+            return $randomStr;
+        }
 
 
 		/**
@@ -88,7 +204,20 @@ namespace Phalcon {
 		 * @param string $start
 		 * @param boolean $ignoreCase
 		 */
-		public static function startsWith($str, $start, $ignoreCase=null){ }
+		public static function startsWith($str, $start, $ignoreCase = null)
+        {
+            if (is_null($ignoreCase)) {
+                $ignoreCase = true;
+            }
+
+            if ($ignoreCase) {
+                $regExp = '@^' . $start . '@ui';
+            } else {
+                $regExp = '@^' . $start . '@u';
+            }
+
+            return preg_match($regExp, $str);
+        }
 
 
 		/**
@@ -104,16 +233,41 @@ namespace Phalcon {
 		 * @param string $end
 		 * @param boolean $ignoreCase
 		 */
-		public static function endsWith($str, $end, $ignoreCase=null){ }
+		public static function endsWith($str, $end, $ignoreCase = null)
+        {
+            if (is_null($ignoreCase)) {
+                $ignoreCase = true;
+            }
+
+            if ($ignoreCase) {
+                $regExp = '@' . $end . '$@ui';
+            } else {
+                $regExp = '@' . $end . '$@u';
+            }
+
+            return preg_match($regExp, $str);
+        }
 
 
 		/**
 		 * Lowecases a string, this function make use of the mbstring extension if available
 		 *
 		 * @param string $str
+         *
 		 * @return string
 		 */
-		public static function lower($str){ }
+		public static function lower($str)
+        {
+            /**
+             * 'lower' checks for the mbstring extension to make a correct lowercase
+             * transformation
+             */
+            if (function_exists('mb_strtolower')) {
+                return mb_strtolower($str);
+            } else {
+                return strtolower($str);
+            }
+        }
 
 
 		/**
@@ -122,7 +276,18 @@ namespace Phalcon {
 		 * @param string $str
 		 * @return string
 		 */
-		public static function upper($str){ }
+		public static function upper($str)
+        {
+            /**
+             * 'upper' checks for the mbstring extension to make a correct lowercase
+             * transformation
+             */
+            if (function_exists('mb_strtoupper')) {
+                return mb_strtoupper($str);
+            } else {
+                return strtoupper($str);
+            }
+        }
 
 	}
 }
