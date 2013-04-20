@@ -23,9 +23,30 @@ namespace Phalcon\Validation\Validator {
 		 *
 		 * @param \Phalcon\Validation $validator
 		 * @param string $attribute
+         *
 		 * @return boolean
 		 */
-		public function validate($validator, $attribute){ }
+		public function validate($validator, $attribute)
+        {
+            $value = $validator->getValue($attribute);
+
+            $validation = filter_var($value, FILTER_VALIDATE_EMAIL);
+
+            if (false === $validation) {
+                $messageStr = $this->getOption('message');
+
+                if (!$messageStr) {
+                    $messageStr = 'Value of field "' . $attribute . '" must have a valid e-mail format';
+                }
+
+                $message = new \Phalcon\Validation\Message($messageStr, $attribute, 'Email');
+                $validator->appendMessage($message);
+
+                return false;
+            }
+
+            return true;
+        }
 
 	}
 }

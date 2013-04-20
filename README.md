@@ -41,7 +41,7 @@ Current version of Phalcon PI is an analogue of the Phalcon PHP Framework versio
 * [x] Tag ([@suxxes](http://github.com/suxxes))
 * [x] Text ([@suxxes](http://github.com/suxxes))
 * [ ] Translate
-* [ ] Validation
+* [x] Validation ([@suxxes](http://github.com/suxxes))
 
 ## External Links
 
