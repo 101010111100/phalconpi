@@ -1,7 +1,7 @@
 {
     "name": "suxxes/phalconpi",
     "type": "library",
-    "description": "Phalcon PI — Phalcon PHP Framework port from C to PHP",
+    "description": "Phalcon PI is a Phalcon Framework C-to-PHP port",
     "keywords": ["framework"],
     "homepage": "http://phalconpi.com",
     "license": "New BSD",
