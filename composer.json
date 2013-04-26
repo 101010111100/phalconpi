@@ -4,6 +4,7 @@
     "description": "Phalcon PI — Phalcon PHP Framework port from C to PHP",
     "keywords": ["framework"],
     "homepage": "http://phalconpi.com",
+    "license": "New BSD",
     "require": {
         "php": ">=5.3"
     },
